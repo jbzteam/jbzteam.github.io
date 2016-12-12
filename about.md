@@ -4,10 +4,10 @@ title: About
 permalink: /about/
 ---
 
-We are a mixed group of Italian people who enjoys talking about computer security, hacking, (h)activism, and many other things. We also enjoy playing [Capture the Flag](https://en.wikipedia.org/wiki/Capture_the_flag#Computer_security).
+Siamo un gruppo eterogeneo di italiani a cui piace parlare di computer security, hacking, (h)activism e tante altre cose. Ci piace anche giocare a [Capture the Flag](https://en.wikipedia.org/wiki/Capture_the_flag#Computer_security).
 
-In this blog you'll find write-ups for the challenges we face during the games, as well as other random things we thik are worth sharing.
+In questo blog pubblichiamo le soluzioni delle challenge che troviamo durante i CTF e anche altre cose che facciamo che reputiamo interessanti.
 
-Our team name, JBZ, derives from [KNX](https://knxsecurity.org/), which is the community where we once met and currently use to chat. If you look at your (qwerty) keyboard, you can guess why we chose _J_ _B_ and _Z_.
+Il nome del team, JBZ, deriva da [KNX](https://knxsecurity.org/), la community in cui ci siamo conosciuti e in cui parliamo online. Se guardi la tastiera (qwerty) puoi dedurre perché abbiamo scelto le lettere _J_ _B_ e _Z_.
 
-If you are interested in joining our team or chat with us (on Telegram) you can send us an e-mail... once you find it! 😁
+Se sei interessato a unirti al nostro team o alla nostra community (su Telegram), puoi mandarci una e-mail... se trovi l'indirizzo! 😁
