@@ -3,7 +3,6 @@ layout: page
 title: About
 permalink: /about/
 ---
-# About
 
 We are a mixed group of Italian people who enjoys talking about computer security, hacking, (h)activism, and many other things. We also enjoy playing [Capture the Flag](https://en.wikipedia.org/wiki/Capture_the_flag#Computer_security).
 
