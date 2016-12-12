@@ -11,7 +11,7 @@ email:
 description:  We Criuz, che si owna di bello?
 
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://jbzteam.github.io" # the base hostname & protocol for your site
+url: "https://jbzteam.github.io" # the base hostname & protocol for your site
 
 github_username:  jbzteam
 google_analytic_id:
