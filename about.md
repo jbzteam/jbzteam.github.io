@@ -3,13 +3,12 @@ layout: page
 title: About
 permalink: /about/
 ---
+# About
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+We are a mixed group of Italian people who enjoys talking about computer security, hacking, (h)activism, and many other things. We also enjoy playing [Capture the Flag](https://en.wikipedia.org/wiki/Capture_the_flag#Computer_security).
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
+In this blog you'll find write-ups for the challenges we face during the games, as well as other random things we thik are worth sharing.
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+Our team name, JBZ, derives from [KNX](https://knxsecurity.org/), which is the community where we once met and currently chat. If you look at your (qwerty) keyboard, you can guess why we chose _J_, _B_, and _Z_.
+
+If you are interested in joining our team or chat with us (we use Telegram) you can send us an e-mail... once you find it 😁
