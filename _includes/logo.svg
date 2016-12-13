@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -6,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32px"
-   height="32px"
-   viewBox="0 0 32 32"
+   width="13.546667mm"
+   height="13.546667mm"
+   viewBox="0 0 48.000003 48.000005"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="logo.svg">
+   sodipodi:docname="drawing2.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -22,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="48.911774"
-     inkscape:cy="31.928418"
+     inkscape:zoom="1"
+     inkscape:cx="-100.91254"
+     inkscape:cy="-94.424335"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -42,8 +45,8 @@
     <inkscape:grid
        type="xygrid"
        id="grid4136"
-       originx="-243.41726"
-       originy="-799.75066" />
+       originx="-243.41725"
+       originy="-799.75065" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -61,11 +64,13 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-243.41725,-139.37815)">
+     transform="translate(-243.41724,-204.61166)">
     <g
        id="g4139"
-       transform="matrix(0.102775,0,0,0.102775,254.61956,133.29239)"
-       style="opacity:1;fill:#000000;fill-opacity:1">
+       transform="matrix(0.04356662,0,0,0.04356662,248.16594,202.03188)"
+       style="opacity:1;fill:#000000;fill-opacity:1"
+       inkscape:export-xdpi="25.43417"
+       inkscape:export-ydpi="25.43417">
       <path
          id="path4141"
          d="m 126.163,417.955 c 8.778,2.426 24.191,6.441 39.452,10.956 42.014,12.42 68.671,4.223 92.737,-32.345 13.568,-20.611 25.21,-42.88 34.845,-65.621 26.284,-62.067 75.839,-89.105 139.486,-91.405 67.947,-2.459 123.148,22.231 155.089,86.418 9.336,18.759 17.761,38.001 27.749,56.4 26.406,48.642 54.79,60.314 108.082,46.008 14.839,-3.988 29.811,-8.479 44.989,-9.943 15.519,-1.495 20.512,7.11 12.896,20.662 -4.79,8.526 -11.415,16.238 -18.195,23.383 -37.651,39.652 -75.422,79.199 -113.756,118.188 -3.448,3.506 -11.435,4.542 -16.897,3.768 -54.539,-7.722 -108.84,-17.295 -163.504,-23.906 -62.893,-7.603 -124.433,4.978 -185.253,18.912 -29.743,6.815 -50.815,6.241 -72.119,-22.4 -25.432,-34.193 -60.059,-61.514 -90.41,-92.099 -6.55,-6.598 -12.845,-13.844 -17.553,-21.8 -11.278,-19.054 -7.021,-25.597 22.362,-25.176 z"
@@ -94,21 +99,25 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:31.34430695px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="300.03772"
-       y="225.72171"
+       style="font-style:normal;font-weight:normal;font-size:13.28693962px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="267.41885"
+       y="241.21294"
        id="text4163"
-       sodipodi:linespacing="0%"><tspan
+       sodipodi:linespacing="0%"
+       inkscape:export-xdpi="25.43417"
+       inkscape:export-ydpi="25.43417"><tspan
          sodipodi:role="line"
          id="tspan4165"
-         x="299.60773"
-         y="225.72171"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:45.00000381px;line-height:0%;font-family:'Pirate Keg';-inkscape-font-specification:'Pirate Keg';text-align:center;letter-spacing:-0.86000037px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1">jbz</tspan></text>
+         x="267.23657"
+         y="241.21294"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.07562828px;line-height:0%;font-family:'Pirate Keg';-inkscape-font-specification:'Pirate Keg';text-align:center;letter-spacing:-0.36455661px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1">jbz</tspan></text>
     <circle
        style="opacity:1;fill:#000000;fill-opacity:0.27745667"
        id="path4144"
-       cx="300.034"
-       cy="195.9949"
-       r="56.616756" />
+       cx="267.41724"
+       cy="228.61166"
+       inkscape:export-xdpi="25.43417"
+       inkscape:export-ydpi="25.43417"
+       r="24.000004" />
   </g>
 </svg>
