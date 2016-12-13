@@ -16,6 +16,8 @@ url: "https://jbzteam.github.io" # the base hostname & protocol for your site
 github_username:  jbzteam
 google_analytic_id:
 disqus_name:
+ctftime_username: jbz
+ctftime_userid: 31388
 
 permalink: /:categories/:title
 paginate: 5
@@ -29,7 +31,7 @@ username:
 # Build settings
 markdown: kramdown
 sass:
-  style: compressed
+style: compressed
 
 gems:
   - jekyll-sitemap
