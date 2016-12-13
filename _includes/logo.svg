@@ -1,6 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -15,7 +12,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="drawing2.svg">
+   sodipodi:docname="logo.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,9 +22,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="-100.91254"
-     inkscape:cy="-94.424335"
+     inkscape:zoom="16"
+     inkscape:cx="17.755452"
+     inkscape:cy="13.314769"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -56,7 +53,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -97,20 +94,22 @@
          inkscape:connector-curvature="0"
          style="clip-rule:evenodd;fill:#000000;fill-opacity:1;fill-rule:evenodd" />
     </g>
-    <text
-       xml:space="preserve"
+    <g
        style="font-style:normal;font-weight:normal;font-size:13.28693962px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="267.41885"
-       y="241.21294"
-       id="text4163"
-       sodipodi:linespacing="0%"
-       inkscape:export-xdpi="25.43417"
-       inkscape:export-ydpi="25.43417"><tspan
-         sodipodi:role="line"
-         id="tspan4165"
-         x="267.23657"
-         y="241.21294"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.07562828px;line-height:0%;font-family:'Pirate Keg';-inkscape-font-specification:'Pirate Keg';text-align:center;letter-spacing:-0.36455661px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1">jbz</tspan></text>
+       id="text4163">
+      <path
+         d="m 251.42904,230.2063 0.0191,12.97143 -1.86942,0 -3.54806,-4.15849 0,6.25681 9.57596,0 1.75496,-2.55614 0,-12.58991 1.67866,-2.49891 -9.30891,0 q 0.0954,0.19076 0.49597,0.83933 0.41966,0.62949 1.20176,1.73588 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.07562828px;line-height:0%;font-family:'Pirate Keg';-inkscape-font-specification:'Pirate Keg';text-align:center;letter-spacing:-0.36455661px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1"
+         id="path4146" />
+      <path
+         d="m 259.15493,227.80277 1.58328,2.38445 0,12.43731 -1.65958,2.65152 13.4674,0 1.69773,-2.57521 0,-6.92446 -1.85034,-0.89655 1.85034,-0.85841 0,-3.8342 -1.69773,-2.57521 -13.4674,0 0.0763,0.19076 z m 8.50773,1.88849 0.83933,0.0382 0,4.36832 -2.06017,0 0,-4.40647 1.22084,0 z m 0,6.52386 q 0.26706,-0.0191 0.47689,0 0.20984,0 0.36244,0.0381 l 0,6.84815 -2.02201,0.0191 0,-6.90538 1.18268,0 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.07562828px;line-height:0%;font-family:'Pirate Keg';-inkscape-font-specification:'Pirate Keg';text-align:center;letter-spacing:-0.36455661px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1"
+         id="path4148" />
+      <path
+         d="m 275.56471,233.86882 0.0382,0.8584 3.18563,-5.03596 3.43361,-0.0191 -7.89731,13.27664 1.98387,2.30815 12.41823,0 -0.0191,-6.79092 -0.19076,0.17168 -3.60529,4.54 -3.71975,-0.0382 -0.0382,-0.66764 7.55395,-12.43731 -1.86941,-2.49891 -11.2737,0 0,6.33311 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.07562828px;line-height:0%;font-family:'Pirate Keg';-inkscape-font-specification:'Pirate Keg';text-align:center;letter-spacing:-0.36455661px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1"
+         id="path4150" />
+    </g>
     <circle
        style="opacity:1;fill:#000000;fill-opacity:0.27745667"
        id="path4144"
