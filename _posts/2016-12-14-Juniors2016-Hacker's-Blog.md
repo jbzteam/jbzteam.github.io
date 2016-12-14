@@ -39,7 +39,7 @@ Ho scoperto che il cookie del bot era `login=admin`. Ho impostato il cookie, son
 
 Ho provato quindi un altro payload, per recuperare `document.location` ed ho ottenuto l'indirizzo `http://10.0.7.216:54337/bot_check.php?check=4e195228ec31dd6f3fef492`. Ho fatto una richiesta a quell'indirizzo e ho notato che il webserver mi ha settato due cookie:
 
-```http
+```
 Set-Cookie: login=admin; expires=Mon, 05-Dec-2016 19:35:19 GMT; path=/
 Set-Cookie: password=e0377f6e85d987d81e96c0381c789360fe90547bdf9be3b5082a492b9c4184f7; expires=Mon, 05-Dec-2016 19:35:19 GMT; path=/
 ```
