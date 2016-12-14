@@ -14,6 +14,7 @@ Veniva dato un sito web, `http://10.0.7.216:54337`: un blog.
 Cliccando su uno dei post ho notato che l'URL era il canoninco `post.php_id=<id>`. Ho provato a forzare un errore SQL ma non era vulnerabile.
 
 Ho notato che i vari post permettevano commenti. Ho provato ad inserire un commento e mi veniva restituito un errore in russo che tradotto diceva:
+
 > Un amministratore deve confermare il commento.
 
 Ho pensato quindi che il sito potrebbe essere vulnerabile a Cross Site Scripting.
@@ -27,7 +28,8 @@ Che decodificato restituisce:
 `http://10.0.7.216:54337/admin64641.php`
 
 Sono andato a quell'indirizzo e mi veniva restituito un errore (sempre in russo) che tradotto era:
->Username e password sbagliati.
+
+> Username e password sbagliati.
 
 Ho postato quindi un commento con questo payload (10.3.2.2. era il mio indirizzo IP):
 
