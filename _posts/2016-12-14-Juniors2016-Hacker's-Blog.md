@@ -11,7 +11,7 @@ author: jbz
 
 Veniva dato un sito web, `http://10.0.7.216:54337`: un blog.
 
-Cliccando su uno dei post ho notato che l'URL è il canoninco `post.php_id=<id>`. Ho provato a forzare un errore SQL ma non era vulnerabile.
+Cliccando su uno dei post ho notato che l'URL era il canoninco `post.php_id=<id>`. Ho provato a forzare un errore SQL ma non era vulnerabile.
 
 Ho notato che i vari post permettevano commenti. Ho provato ad inserire un commento e mi veniva restituito un errore in russo che tradotto diceva:
 > Un amministratore deve confermare il commento.
