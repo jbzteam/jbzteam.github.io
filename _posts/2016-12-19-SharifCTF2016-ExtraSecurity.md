@@ -7,9 +7,8 @@ tags: [web,SharifCTF2016]
 author: jbz
 ---
 
-Questa sfida web richiedeva di fare 'firmare' all'utente amministratore del sito un numero.
 
-![L'homepage della challenge](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/ExtraSecurity/sharif_web_1.png)
+Questa sfida web richiedeva di fare 'firmare' all'utente amministratore del sito un numero.  
 
 veniva offerta la possibilità di firmare con la propria chiave (impostata dal server in un cookie `KEY`) o di richiedere all'amministratore attraverso un form di effettuare la firma per noi. Dal testo non era chiaro quale fosse esattamente la strada da prendere: se fosse necessario rubare il cookie all'admin o se bastasse effettivamente utilizzare il form con qualche modifica.
 Il testo specificava esplicitamente che l'admin avrebbe utilizzato Chrome per vedere le richieste e che quindi sarebbe intervenuto l'XSS Auditor.
@@ -49,7 +48,7 @@ Più in basso si notava anche il seguente codice, che però non veniva eseguito:
 </script>
 ```
 
-Con qualche test breve si intuiva subito che il campo GET `id` era plausibilmente vulnerabile ad XSS ma che un filtro custom bloccava le richieste contenenti la maggior parte delle keyword o simboli usati per tale scopo: eval, alert, document, this, etc. C'era inoltre un limite di caratteri che rendeva impossibile l'utilizzo di (jsfuck)[http://www.jsfuck.com].
+Con qualche test breve si intuiva subito che il campo GET `id` era plausibilmente vulnerabile ad XSS ma che un filtro custom bloccava le richieste contenenti la maggior parte delle keyword o simboli usati per tale scopo: eval, alert, document, this, etc. C'era inoltre un limite di caratteri che rendeva impossibile l'utilizzo di [jsfuck](http://www.jsfuck.com).
 
 La nostra idea era quella di sfruttare la vulnerabilità nel campo `id`, il cui contenuto veniva riflesso sia nel primo script che nel secondo per rubare il cookie `KEY` all'admin ed effettuare la firma in autonomia.
 
