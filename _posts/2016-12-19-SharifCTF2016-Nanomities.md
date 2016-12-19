@@ -32,7 +32,7 @@ Ovviamente è cifrato. Cerchiamo nel binario come.
 
 ![Cifratura con xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor.png)
 
-Una volta identificata la funzione che gestisce il payload, notiamo che nella variabile `var_1` viene inserito il valore `0x44`, poi viene aggiunto di due e viene fatto uno `xor`. La chiave quindi è il byte `0x46`.
+Una volta identificata la funzione che gestisce il payload, notiamo che nella variabile `var_1` viene inserito il valore `0x44`, poi viene incrementato di `2` e viene fatto uno `xor`. La chiave quindi è il byte `0x46`.
 
 Con un paio di righe di python decifriamo il payload:
 
