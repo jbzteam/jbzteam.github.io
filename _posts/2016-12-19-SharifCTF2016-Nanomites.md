@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "SharifCTF2016 - Nanomities"
+title:  "SharifCTF2016 - Nanomites"
 date:   2016-12-19 19:30
 categories: CTF
 tags: [reverse,SharifCTF2016]
 author: jbz
 ---
 
-Nanomities era una challenge di reversing il cui testo recitava:
+Nanomites era una challenge di reversing il cui testo recitava:
 
 _Analyze the given file. Find the C&C IP address and the data sent to it in plain text.
 Flag = SharifCTF{md5(strcat(IP, Data))}_
