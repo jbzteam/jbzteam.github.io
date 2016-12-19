@@ -34,7 +34,7 @@ Ovviamente è cifrato. Cerchiamo nel binario come. Sappiamo che i dati vengono s
 
 Vediamo che la variabile che contiene i dati è chiamata `buf` quindi scrolliamo in su per capire come viene generato quel buffer. Vediamo che ad un certo punto la variabile `buf` viene passata alla funzione `sub_401260`:
 
-![Cifratura con xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor_function.png)
+![Funzione contenente xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor_function.png)
 
 Che contiene:
 
