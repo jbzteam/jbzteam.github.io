@@ -28,11 +28,19 @@ Ok, abbiamo recuperato la prima informazione. Adesso dobbiamo trovare i dati. Da
 
 ![Payload trasmesso](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/wireshark.png)
 
-Ovviamente è cifrato. Cerchiamo nel binario come. 
+Ovviamente è cifrato. Cerchiamo nel binario come. Sappiamo che i dati vengono spediti, quindi scrollando verso il basso nell'asm cerchiamo una chiamata alla funzione `send`, e la troviamo qui:
+
+![Funzione send](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/send.png)
+
+Vediamo che la variabile che contiene i dati è chiamata `buf` quindi scrolliamo in su per capire come viene generato quel buffer. Vediamo che ad un certo punto la variabile `buf` viene passata alla funzione `sub_401260`:
+
+![Cifratura con xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor_function.png)
+
+Che contiene:
 
 ![Cifratura con xor](https://raw.githubusercontent.com/jbzteam/CTF/master/SharifCTF2016/Nanomites/xor.png)
 
-Una volta identificata la funzione che gestisce il payload, notiamo che nella variabile `var_1` viene inserito il valore `0x44`, poi viene incrementato di `2` e viene fatto uno `xor`. La chiave quindi è il byte `0x46`.
+Notiamo che nella variabile `var_1` viene inserito il valore `0x44`, poi viene incrementata di `2` e viene usata per fare uno `xor`. La chiave quindi è `0x46`.
 
 Con un paio di righe di python decifriamo il payload:
 
