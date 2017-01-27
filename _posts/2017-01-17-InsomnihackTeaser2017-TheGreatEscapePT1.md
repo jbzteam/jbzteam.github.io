@@ -8,6 +8,7 @@ author: jbz
 ---
 
 Il testo della challenge recitava:
+
 >Hello,
 
 >We've been suspecting Swiss Secure Cloud of secretely doing some pretty advanced research in artifical intelligence and this has recently been confirmed by the fact that one of their AIs seems to have escaped from their premises and has gone rogue. We have no idea whether this poses a threat or not and we need you to investigate what is going on.
