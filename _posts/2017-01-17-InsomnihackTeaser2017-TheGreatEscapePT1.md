@@ -215,7 +215,7 @@ xmZSEXjNvG9grjxwR96vp1PK/4Bq1jo=
 -----END PRIVATE KEY-----
 ```
 
-E il del traffico TLS
+E del traffico TLS
 
 Utilizziamo quindi la chiave privata che abbiamo trovato per decifrare il traffico verso ssc.teaser.insomnihack.ch ottenendo così la flag:
 
