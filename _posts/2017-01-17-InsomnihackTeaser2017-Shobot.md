@@ -57,6 +57,8 @@ var TRUST_ACTIONS = [
 
 
 ```
+# Script by TheZer0:
+
 import requests
 import re
 import json
