@@ -6,6 +6,7 @@ categories: CTF
 tags: [Forensics,InsomnihackTeaser2017]
 author: jbz
 ---
+For this CTF we had a collab with [P=NP team](https://pequalsnp-team.github.io)
 
 Il testo della challenge recitava:
 
