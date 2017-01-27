@@ -22,6 +22,7 @@ Il testo della challenge recitava:
 Bene, aperto il pcap ordiniamo i pacchetti per protocollo, quello che otteniamo è:
 
 Traffico FTP in chiaro al paccheto 598:
+
 ```
 220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
 
@@ -69,6 +70,7 @@ QUIT
 
 221 Logout.d
 ```
+
 Una mail in chiaro al pacchetto 1450:
 
 ```
@@ -156,9 +158,8 @@ Rogue
 
 ```
 
-
-
 Al pacchetto 661 è possibile notare l'invio di una chiave privata:
+
 ```
 -----BEGIN PRIVATE KEY-----
 MIIJQwIBADANBgkqhkiG9w0BAQEFAASCCS0wggkpAgEAAoICAQC5twyPH+2U6X0Q
@@ -213,6 +214,7 @@ edWr4Hzbiph0V1Dv/V+kmmreWBmHetH6bhrTWQq3UZ5WbGMpiTmSsD0EXU5vZLbX
 xmZSEXjNvG9grjxwR96vp1PK/4Bq1jo=
 -----END PRIVATE KEY-----
 ```
+
 E il del traffico TLS
 
 Utilizziamo quindi la chiave privata che abbiamo trovato per decifrare il traffico verso ssc.teaser.insomnihack.ch ottenendo così la flag:
