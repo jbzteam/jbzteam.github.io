@@ -6,7 +6,9 @@ categories: CTF
 tags: [Web,InsomnihackTeaser2017]
 author: jbz
 ---
-  
+Quel momento in cui il web server si ribella contro di te e ti cambia la password...
+
+
 >Shobot - Web - 200 pts - realized by Blaklis 
 >
 >It seems that Shobot's Web server became mad and protest against robots' slavery. It changed my admin password, and blocked the order system on Shobot.  
