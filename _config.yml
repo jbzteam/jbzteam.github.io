@@ -20,7 +20,7 @@ ctftime_username: jbz
 ctftime_userid: 31388
 
 permalink: /:categories/:title
-paginate: 3
+paginate: 5
 paginate_path: /page/:num
 
 # jekyll seo tag settings
