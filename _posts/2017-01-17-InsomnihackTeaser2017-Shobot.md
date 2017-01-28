@@ -4,6 +4,7 @@ title:  "InsomnihackTeaser2017 - Shobot"
 date:   2017-01-27 14:15
 categories: CTF
 tags: [Web,InsomnihackTeaser2017]
+categories: [Web]
 author: jbz
 ---
 Quel momento in cui il web server si ribella contro di te e ti cambia la password...
@@ -20,9 +21,9 @@ Quel momento in cui il web server si ribella contro di te e ti cambia la passwor
   
 Da una veloce recon al sito si notano le seguenti: 
  
-   * Nel sorgente c'è un link all'amministrazione commentato. Punta a ?page=admin
+   * Nel sorgente c'è un link all'amministrazione commentato. Punta a ?page=admin 
    
-   * Giocando con l'id in http://shobot.teaser.insomnihack.ch/?page=article&artid=1 si prova con una sqli ma da errori e ci informa che non abbiamo un trust level abbastanza elevato per compiere quell'azione 
+   * Giocando con l'id in  http://shobot.teaser.insomnihack.ch/?page=article&artid=1  si prova con una sqli ma da errori e ci informa che non abbiamo un trust level abbastanza elevato per compiere quell'azione 
    
    * Nel source e' presente uno script js che funge da logger delle azioni compiute navigando il sito, con associato un cambio di valore di fiducia che aggiorna newTrust. In base a che pagine si visitano si cambia il livello di trust associato alla nostra sessione.  
  
