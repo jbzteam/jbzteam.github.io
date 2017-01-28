@@ -3,7 +3,8 @@ layout: post
 title:  "SharifCTF2016 - ExtraSecurity"
 date:   2016-12-19 15:30
 categories: CTF
-tags: [web,SharifCTF2016]
+tags: [SharifCTF2016]
+categories: [Web]
 author: jbz
 ---
 

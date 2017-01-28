@@ -3,7 +3,8 @@ layout: post
 title:  "Juniors2016 - Hacker's Blog"
 date:   2016-12-14 03:15
 categories: CTF
-tags: [web,Juniors2016]
+tags: [Juniors2016]
+categories: [Web]
 author: jbz
 ---
 
