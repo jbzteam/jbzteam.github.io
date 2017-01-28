@@ -2,15 +2,20 @@
 layout: page
 title: Archive
 permalink: /archive/
+events: [InsomnihackTeaser2017,SharifCTF2016,Juniors2016,SECCON2016]
+# Insert newer event at the beginning
 ---
 
 <div class="archive">
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-      </li>
-    {% endfor %}
-  </ul>
+  {% for event in page.events %}
+  	<h2>{{ event }}</h2>
+    <ul class="post-list">
+      {% for post in site.tags[event] %}
+        <li>
+          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
 </div>
