@@ -3,8 +3,8 @@ layout: page
 title: Archive
 permalink: /archive/
 events: [InsomnihackTeaser2017,SharifCTF2016,Juniors2016,SECCON2016]
-# Insert newer event at the beginning
 ---
+<!-- # Insert newer event at the beginning -->
 
 <div class="archive">
   {% for event in page.events %}
