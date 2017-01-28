@@ -3,7 +3,7 @@ layout: post
 title:  "InsomnihackTeaser2017 - Shobot"
 date:   2017-01-27 14:15
 categories: CTF
-tags: [Web,InsomnihackTeaser2017]
+tags: [InsomnihackTeaser2017]
 categories: [Web]
 author: jbz
 ---
