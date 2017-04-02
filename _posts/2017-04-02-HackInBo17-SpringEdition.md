@@ -335,6 +335,7 @@ Il risultato restituito dal server era `5512782764526946|170|10/08/2020`.
 Hashato in md5 abbiamo ottenuto la flag:
 
 `bc13ff4c1b4a7ada0c6dcf2dec4e4404`
+![flags](https://raw.githubusercontent.com/jbzteam/CTF/master/HiB17_SpringEdition/complete.jpg)
 
 ## Bonus - Aranzulla's pass
 
