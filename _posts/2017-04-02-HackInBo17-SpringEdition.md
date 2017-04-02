@@ -338,7 +338,7 @@ Hashato in md5 abbiamo ottenuto la flag:
 
 ## Bonus - Aranzulla's pass
 
-la flag è wikipedia
+la flag è w1k1p3d14
 
 -------------------------------------------------------------------------
 ## The End                                 
