@@ -6,14 +6,16 @@ categories: CTF
 tags: [HiBCTF2017]
 categories: [Web,Crypto,Reversing]
 author: jbz
----
+
+    ---
+
 
 Abbiamo partecipato al CTF organizzato da HackInBo per la Spring Edition 2017.
 Il CTF era disponibile al seguente indirizzo: [http://ctf-hib.thesthack.com/](http://ctf-hib.thesthack.com/)
 
 Il CTF aveva 10 challenge sequenziali, nelle quali ognuna forniva informazioni o privilegi per poter accedere ad una o più challenge successive (oltre a ovviamente la flag). Questo writeup mostra le soluzioni per tutte le challenge.
 
-Un ringraziamento a [HackInBo](https://www.hackinbo.it) e [HacktiveSecurity](https://www.hacktivesecurity.com) per aver messo a disposizione a realizzato il CTF.
+Un ringraziamento a [HackInBo](https://www.hackinbo.it) ed [HacktiveSecurity](https://www.hacktivesecurity.com) a per aver messo a disposizione a realizzato il CTF.
 
 Ci vediamo a Bologna!
 
@@ -44,11 +46,10 @@ Tramite nikto è stata trovata la pagina [http://ctf-hib.thesthack.com/invoker/J
 Mandando una richiesta del tipo `settings.php?edit=invoker/JMXInvokerServlet/index.php` è stato possibile accedere al sorgente della pagina, che conteneva la flag:
 
 ```html
-<textarea class="form-control" rows="15"><?php 
+<?php 
 echo ("Double Rainbow Flag is sleeping here"); 
 /*Double rainbow flag: *6333d7fdc399af3b94177f037de19c2f**/ 
 ?>
-</textarea>
 ```
 
 
@@ -338,3 +339,4 @@ Hashato in md5 abbiamo ottenuto la flag:
 
 -------------------------------------------------------------------------
 ## The End                                 
+
