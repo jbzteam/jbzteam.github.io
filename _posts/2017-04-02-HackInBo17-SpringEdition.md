@@ -324,7 +324,7 @@ Decodificandolo dalla base64 risultava una stringa apparentemente cifrata.
 Abbiamo pensato di decifrarla grazie al *PCI Token Generator* della challenge "ECB Padding".
 
 Utilizzando le funzioni dello script per la suddetta challenge:
-```
+```python
 ciphertext = parse.quote("7cLGMYqWY2bGgYPIDlE+CODHAwwLJiAMIUSghfke+QgCMNrEQyj7TlnqU4nNuZFTLsVvVWQ15jH3JYsgvwq6/CcaQczRD/0csxB7rqiR3DQ=")
 resp = requests.get('http://url:9090/index.php', cookies={'pci_crypt': ciphertext})
 print(resp.text)
@@ -338,7 +338,3 @@ Hashato in md5 abbiamo ottenuto la flag:
 
 -------------------------------------------------------------------------
 ## The End                                 
-
-
-
-
