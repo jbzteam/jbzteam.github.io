@@ -9,8 +9,8 @@ author: jbz
 ---
 
 
-Abbiamo partecipato al CTF organizzato da HackInBo per la Spring Edition 2017.
-Il CTF era disponibile al seguente indirizzo: [http://ctf-hib.thesthack.com/](http://ctf-hib.thesthack.com/)
+Abbiamo partecipato al CTF organizzato da [HackInBo](http://www.hackinbo.it) per la Spring Edition 2017.
+Il CTF era disponibile al seguente indirizzo: [http://ctf-hib.thesthack.com/](http://ctf-hib.thesthack.com/).
 
 Il CTF aveva 10 challenge sequenziali, ognuna delle quali forniva informazioni o privilegi per poter accedere ad una o più challenge successive (oltre a ovviamente alla flag). Questo writeup mostra le soluzioni per tutte le challenge.
 
