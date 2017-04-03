@@ -6,8 +6,7 @@ categories: CTF
 tags: [HiBCTF2017]
 categories: [Web,Crypto,Reversing]
 author: jbz
-
-    ---
+---
 
 
 Abbiamo partecipato al CTF organizzato da HackInBo per la Spring Edition 2017.
