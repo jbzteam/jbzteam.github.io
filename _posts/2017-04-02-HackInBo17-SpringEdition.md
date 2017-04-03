@@ -262,12 +262,12 @@ Ciò che salta subito all'occhio è l'utilizzo della funzione `strcpy`, notoriam
 
 Analizzando il binario abbiamo notato che l'unica mitigation presente era `NX` quindi non potevamo eseguire nessuno shellcode custom passato direttamente come input. Rimaneva però possibile effettuare una `return2libc` per eseguire comandi arbitrari.
 
-Per effettuare questo tipo di attacco, abbiamo bisogno dell'indirizzo di una funzione che vogliamo riutilizzare per eseguire comandi. Il terzo hint del CTF ci ha fornito l'indirizzo di `system`, e tramite questo indirizzo più le informazioni svelate nel changelog abbiamo recuperato anche l'indirizzo di `exit`.
+Per effettuare questo tipo di attacco, abbiamo bisogno dell'indirizzo di una funzione che vogliamo riutilizzare per eseguire comandi. Il terzo hint del CTF ci ha fornito l'indirizzo di `system` e tramite questo indirizzo più le informazioni svelate nel changelog abbiamo recuperato anche l'indirizzo di `exit`.
 
 Purtroppo rimane un altro problema il binario non ha controllo sui file descriptor usati dal nuovo processo che andremo a lanciare, e di conseguenza l'esecuzione di comandi sarà blind e non sarà possibile utilizzare interattivamente la shell.
-l'ultima parte del payload chiamata per semplicità "comando" dovrà contenere il comando da far eseguire ad system e sarà un puntato ad una stringa contenuta nel binario. 
+L'ultima parte del payload chiamata per semplicità "comando" dovrà contenere il comando da far eseguire ad system e sarà un puntato ad una stringa contenuta nel binario. 
 Abbiamo quindi due possibilità o andare a cercare in memoria gli indirizzi di ogni singola lettera componendo cosi il nostro comando o più semplicemente bruteforzare il puntatore al buffer che inviamo tramite socket, abbiamo optato per la seconda.
-tramite analisi dimanica su una macchina debian simile al target abbiamo notato che l'assenza di ASLR faceva si che il nostro buffer fosse presente nel range 0xbfffe000 - 0xbfffffff lasciando così 8191 possibili indirizzi da bruteforzare.
+Tramite analisi dimanica su una macchina debian simile al target abbiamo notato che l'assenza di ASLR faceva si che il nostro buffer fosse presente nel range 0xbfffe000 - 0xbfffffff lasciando così 8191 possibili indirizzi da bruteforzare.
 Abbiamo quindi realizzato uno script python per eseguire un comando arbitrario una volta indovinato l'indirizzo corretto [bruteforcer.py](https://raw.githubusercontent.com/jbzteam/CTF/master/HiB17_SpringEdition/bruteforce.py)
 una volta terminato il bruteforce abbiamo notato che il nostro comando era stato eseguito consentendoci l'accesso alla macchiana mediante la porta 31337
 ```
@@ -338,7 +338,7 @@ Hashato in md5 abbiamo ottenuto la flag:
 
 ## Bonus - Aranzulla's pass
 
-la flag è w1k1p3d14
+la flag è `w1k1p3d14`
 
 -------------------------------------------------------------------------
 ## The End                                 
