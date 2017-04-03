@@ -12,9 +12,9 @@ author: jbz
 Abbiamo partecipato al CTF organizzato da HackInBo per la Spring Edition 2017.
 Il CTF era disponibile al seguente indirizzo: [http://ctf-hib.thesthack.com/](http://ctf-hib.thesthack.com/)
 
-Il CTF aveva 10 challenge sequenziali, nelle quali ognuna forniva informazioni o privilegi per poter accedere ad una o più challenge successive (oltre a ovviamente la flag). Questo writeup mostra le soluzioni per tutte le challenge.
+Il CTF aveva 10 challenge sequenziali, ognuna delle quali forniva informazioni o privilegi per poter accedere ad una o più challenge successive (oltre a ovviamente alla flag). Questo writeup mostra le soluzioni per tutte le challenge.
 
-Un ringraziamento a [HackInBo](https://www.hackinbo.it) ed [HacktiveSecurity](https://www.hacktivesecurity.com) a per aver messo a disposizione a realizzato il CTF.
+Un ringraziamento a [HackInBo](https://www.hackinbo.it) ed [HacktiveSecurity](https://www.hacktivesecurity.com) a per aver messo a disposizione a realizzato un CTF tutto italiano, cosa più unica che rara.
 
 Ci vediamo a Bologna!
 
@@ -37,7 +37,7 @@ Il file [403.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition
 ---
 ## Double Rainbow
 
-Questa flag è stata recuperata dopo aver avuto accesso ad "Admin Session". Leggendo il codice di [settings.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/settings.php). La pagina accettava il parametro `edit` via `GET`, che permetteva di accedere a qualsiasi file sul sistema.
+Questa flag è stata recuperata dopo aver avuto accesso ad "Admin Session", leggendo il codice di [settings.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/settings.php). La pagina accettava il parametro `edit` via `GET`, che permetteva di accedere a qualsiasi file sul sistema.
 
 Tramite nikto è stata trovata la pagina [http://ctf-hib.thesthack.com/invoker/JMXInvokerServlet](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/JMXInvokerServlet) che diceva:
 `Double Rainbow Flag is sleeping here`
@@ -72,14 +72,14 @@ Una volta settato il cookie `PHPSESSID` con il valore appena ottenuto, siamo riu
 
 Questa flag è stata ottenuta dopo aver ottenuto code execution sul webserver (vedi la sezione dopo `Admin Session`), dato che la flag era in un binario offerto dal server backend (che aveva il compito di gestire i pagamenti).
 
-Durante l'analisi (reversing) del binario **server** oltre a rilevare una vulnerabilità di tipo stack-based overflow abbiamo notato che vi era una costante mai utilizzata all'interno del codice questa riportava il seguente MD5 (flag)
+Durante l'analisi (reversing) del binario `server` oltre a rilevare una vulnerabilità di tipo stack-based overflow abbiamo notato che vi era una costante mai utilizzata all'interno del codice. Questa riportava il seguente MD5 (flag):
 
 `355c71e5b0f5e70ab77f27d750a2a75a`
 
 ---
 ## Admin Session
 
-La pagina [user.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/user.php) conteneva un form tramite il quale si poteva mandare un messaggio al "team di support" del sito web. Abbiamo capito che era possibile mandare del codice JavaScript che poi veniva eseguito, quindi una store Cross-Site Scripting.
+La pagina [user.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/user.php) conteneva un form tramite il quale si poteva mandare un messaggio al "team di supporto" del sito web. Abbiamo capito che era possibile mandare del codice JavaScript che poi veniva eseguito, quindi ci trovavamo di fronte ad una vulnerabilità di tipo stored Cross-Site Scripting.
 
 Il payload che ci ha permesso di ottenere la sessione dell'amministratore è il seguente:
 
@@ -183,14 +183,14 @@ class SecurityCheck{
 print serialize(new StyleEditor);
 print "\n";
 print base64_encode(serialize(new StyleEditor));
-echo "\n";
+print "\n";
 ```
 
 I parametri che vengono utilizzati per effettuare command execution sono due:
 - `attacks` viene utilizzato come primo parametro della `preg_replace`. Come vedete c'è il flag `/e` alla fine che permette l'esecuzione del codice quando la regex è valida.
 - `replace` che contiene il codice da eseguire. `$badwords[2]` corrisponde a `system`, e possiamo eseguire qualsiasi comando passato alla variabile `x` tramite `POST`.
 
-Una volta impostato il cookie, possiamo eseguire qualsiasi comando sul server tramite richieste `POST`. Abbiamo eseguito una semplice shell reverse in Python e siamo riusciti ad ottenere accesso interattivo al webserver.
+Una volta impostato il cookie, potevamo eseguire qualsiasi comando sul server tramite richieste `POST`. Abbiamo eseguito una semplice shell reverse in Python e siamo riusciti ad ottenere accesso interattivo al webserver.
 
 ---
 ## PCI Zone
@@ -200,9 +200,9 @@ Nel pannello amministrativo del webserver abbiamo notato un indirizzo IP interno
 ```bash
 nc -v -z 10.0.0.165 1-65535
 ```
-Abbiamo trovato due porte aperte: la `22`,  `80` e la `65099`.
+Abbiamo trovato tre porte aperte: la `22`,  `80` e la `65099`.
 
-Alla porta `65099` rispondeva un servizio custom che dopo aver passato una stringa qualsiasi restituiva `[OK] CC RECEIVED`. Alla porta `80` rispondeva un webserver.
+Alla porta `65099` rispondeva un servizio custom che dopo aver passato una stringa qualsiasi restituiva `[OK] CC RECEIVED`. Alla porta `80` rispondeva un webserver. Alla `22` un server SSH.
 
 Per quanto concerne la porta `80`, questa riportava una pagina web con l'applicativo `PCI Token Generator 0.0.2` il quale restituiva un commento: `<!-- it's kinda bugged, read the changelog-->`.
 
@@ -264,13 +264,15 @@ Analizzando il binario abbiamo notato che l'unica mitigation presente era `NX` q
 
 Per effettuare questo tipo di attacco, abbiamo bisogno dell'indirizzo di una funzione che vogliamo riutilizzare per eseguire comandi. Il terzo hint del CTF ci ha fornito l'indirizzo di `system` e tramite questo indirizzo più le informazioni svelate nel changelog abbiamo recuperato anche l'indirizzo di `exit`.
 
-Purtroppo rimane un altro problema il binario non ha controllo sui file descriptor usati dal nuovo processo che andremo a lanciare, e di conseguenza l'esecuzione di comandi sarà blind e non sarà possibile utilizzare interattivamente la shell.
-L'ultima parte del payload chiamata per semplicità "comando" dovrà contenere il comando da far eseguire ad system e sarà un puntato ad una stringa contenuta nel binario. 
-Abbiamo quindi due possibilità o andare a cercare in memoria gli indirizzi di ogni singola lettera componendo cosi il nostro comando o più semplicemente bruteforzare il puntatore al buffer che inviamo tramite socket, abbiamo optato per la seconda.
-Tramite analisi dimanica su una macchina debian simile al target abbiamo notato che l'assenza di ASLR faceva si che il nostro buffer fosse presente nel range 0xbfffe000 - 0xbfffffff lasciando così 8191 possibili indirizzi da bruteforzare.
-Abbiamo quindi realizzato uno script python per eseguire un comando arbitrario una volta indovinato l'indirizzo corretto [bruteforcer.py](https://raw.githubusercontent.com/jbzteam/CTF/master/HiB17_SpringEdition/bruteforce.py)
-una volta terminato il bruteforce abbiamo notato che il nostro comando era stato eseguito consentendoci l'accesso alla macchiana mediante la porta 31337
-```
+Purtroppo rimane un altro problema: il binario non ha controllo sui file descriptor usati dal nuovo processo che andremo a lanciare, e di conseguenza l'esecuzione di comandi sarà blind e non sarà possibile utilizzare interattivamente la shell.
+L'ultima parte del payload dovrà contenere il comando da far eseguire a `system` e sarà un puntatore ad una stringa contenuta nel binario.
+
+Abbiamo quindi due possibilità: andare a cercare in memoria gli indirizzi di ogni singola lettera componendo cosi il nostro comando, oppure, più semplicemente, cercare tramite un bruteforce il puntatore al buffer che inviamo tramite socket. Abbiamo optato per la seconda.
+
+Tramite analisi dimanica su una macchina debian simile al target abbiamo notato che l'assenza di ASLR faceva si che il nostro buffer fosse presente nel range `0xbfffe000 - 0xbfffffff`, lasciando così 8191 possibili indirizzi da provare.
+Abbiamo quindi realizzato uno script python che invia richieste al server fin quando non trova l'indirizzo corretto del nostro payload: [bruteforcer.py](https://raw.githubusercontent.com/jbzteam/CTF/master/HiB17_SpringEdition/bruteforce.py). Una volta terminato il bruteforce abbiamo notato che il nostro comando era stato eseguito, consentendoci l'accesso alla macchiana mediante la porta 31337:
+
+```bash
 www-data@www:/var/www/CTF/support$ nc 10.0.0.165 31337
 nc 10.0.0.165 31337
 Insert password for JBZ TEAM: ***********
@@ -278,6 +280,7 @@ python -c "import pty;pty.spawn('/bin/bash')"
 sysop@debian:/tmp/...$ id
 uid=1000(sysop) gid=1000(sysop) groups=1000(sysop),24(cdrom),25(floppy),29(audio),30(dip),44(video),46(plugdev),108(netdev)
 ```
+
 Abbiamo così ottenuto la flag nascosta sul server
 ```
 pci zone flag: 95429c6709bb99d1ed06d2a99bc6ffbc
@@ -286,12 +289,12 @@ pci zone flag: 95429c6709bb99d1ed06d2a99bc6ffbc
 ---
 ## ECB Padding
 
-Un commento nella pagina index.php diceva: `<!-- it's kinda bugged, read the changelog-->`
-Abbiamo visitato quindi il file changelog.txt (indicato sopra) capendo cosi' parte del funzionamento del file index.php.
+Un commento nella pagina index.php diceva: `<!-- it's kinda bugged, read the changelog-->`.
+Abbiamo visitato quindi il file changelog.txt (indicato sopra) capendo così parte del funzionamento del file `index.php`.
 
-Facendo una richiesta tramite il form nella pagina [index.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/index.php_crypto) e ricaricando la stessa abbiamo notato che il server oltre a printare il valore di `CC` printava l'oggetto `$settings`. Abbiamo quindi notato un cookie chiamato "pci_crypt".
+Facendo una richiesta tramite il form nella pagina [index.php](https://github.com/jbzteam/CTF/blob/master/HiB17_SpringEdition/index.php_crypto) e ricaricando la stessa abbiamo notato che il server oltre a printare il valore di `CC` printava l'oggetto `$settings`. Abbiamo quindi notato un cookie chiamato `pci_crypt`.
 
-Decodando il cookie "pci_crypt" (urldecode -> base64decode -> hex) abbiamo ottenuto una stringa esadecimale cifrata.
+Decodificando questo cookie (urldecode -> base64decode -> hex) abbiamo ottenuto una stringa esadecimale cifrata.
 Probabilmente l'oggetto `$settings` serializzato e cifrato in ECB.
 
 Per facilitare l'invio delle richieste e leggere i cookie abbiamo scritto [questo script Python](https://github.com/PequalsNP-team/pequalsnp-team.github.io/blob/master/assets/hib17_crypto.py).
@@ -308,16 +311,14 @@ In questa immagine possiamo vedere come i blocchi 1 e 2 dei plaintext destra e s
 In questa immagine invece il blocco 1 e 3 del plaintext a sinistra e il blocco 1 e 4 di quello di destra combaciano, ma solo il blocco 1 del ciphertext e' identico
 ![Crypto2](https://raw.githubusercontent.com/PequalsNP-team/pequalsnp-team.github.io/master/assets/hib17_crypto2.png)
 
-Per questo motivo abbiamo sospeso questa challenge aspettando di risolvere "PCI Zone Flag" che ci avrebbe dato RCE sulla stessa macchina cosi da poter osservare i sorgenti.
-Nei sorgenti era presente la flag
+Per questo motivo abbiamo sospeso questa challenge aspettando di risolvere `PCI Zone Flag` che ci avrebbe dato RCE sulla stessa macchina cosi da poter osservare i sorgenti.
 
-`856bc9fc0d0b3c23d1a58c8e93a433e4`
+Nei sorgenti era presente la flag: `856bc9fc0d0b3c23d1a58c8e93a433e4`
  
-
 ---
 ## Credit Card n.6666
 
-Dal database abbiamo estratto il `PCI_token` della carta di credito con `id` *6666*:
+Dal database relativo al webserver abbiamo estratto il `PCI_token` della carta di credito con `id` *6666*:
 `7cLGMYqWY2bGgYPIDlE+CODHAwwLJiAMIUSghfke+QgCMNrEQyj7TlnqU4nNuZFTLsVvVWQ15jH3JYsgvwq6/CcaQczRD/0csxB7rqiR3DQ=`
 
 Decodificandolo dalla base64 risultava una stringa apparentemente cifrata.
@@ -338,7 +339,9 @@ Hashato in md5 abbiamo ottenuto la flag:
 
 ## Bonus - Aranzulla's pass
 
-la flag è `w1k1p3d14`
+La flag è `w1k1p3d14`
+
+PS: Non l'abbiamo trovata, ce l'hanno detta ;)
 
 -------------------------------------------------------------------------
 ## The End                                 
