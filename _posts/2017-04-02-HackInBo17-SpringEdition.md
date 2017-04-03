@@ -14,7 +14,7 @@ Il CTF era disponibile al seguente indirizzo: [http://ctf-hib.thesthack.com/](ht
 
 Il CTF aveva 10 challenge sequenziali, ognuna delle quali forniva informazioni o privilegi per poter accedere ad una o più challenge successive (oltre a ovviamente alla flag). Questo writeup mostra le soluzioni per tutte le challenge.
 
-Un ringraziamento a [HackInBo](https://www.hackinbo.it) ed [HacktiveSecurity](https://www.hacktivesecurity.com) a per aver messo a disposizione a realizzato un CTF tutto italiano, cosa più unica che rara.
+Un ringraziamento a [HackInBo](https://www.hackinbo.it) ed [HacktiveSecurity](https://www.hacktivesecurity.com) per aver messo a disposizione a realizzato un CTF tutto italiano, cosa più unica che rara.
 
 Ci vediamo a Bologna!
 
