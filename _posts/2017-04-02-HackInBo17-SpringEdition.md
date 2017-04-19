@@ -346,3 +346,4 @@ PS: Non l'abbiamo trovata, ce l'hanno detta ;)
 -------------------------------------------------------------------------
 ## The End                                 
 
+Leggi anche il WriteUp dei nostri amici di Shielder: https://www.shielder.it/blog/soluzione-ctf-hib-ctf-2017-spring-edition/
