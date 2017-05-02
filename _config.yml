@@ -18,6 +18,7 @@ google_analytic_id:
 disqus_name:
 ctftime_username: jbz
 ctftime_userid: 31388
+twitter_username: jbzteam
 
 permalink: /:categories/:title
 paginate: 5
