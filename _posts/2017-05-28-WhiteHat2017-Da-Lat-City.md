@@ -29,7 +29,7 @@ PIE:      No PIE (0x8048000)
 We'll soon realize that we don't really care about the mitigations for this challenge.
 
 When we run `cheatme` we notices it asks for credentials, so let's understand what it does with IDA Pro. This is the pseudocode of `main()`:
-```C
+```c
 int __cdecl main()
 {
   sub_80488FB();
@@ -47,7 +47,7 @@ Let's analyze what all these functions do.
 `sub_80488FB()` opens the file `head` and prints its output. Nothing interesting.
 
 `sub_8048C97()` is the function that checks for a username and has this code:
-```C
+```c
 int sub_8048C97()
 {
   FILE *fd; // [sp+Ch] [bp-4Ch]@1
@@ -77,7 +77,7 @@ int sub_8048C97()
 It basically opens the file `../../problem/login/user.txt` in `s1`, reads user input in `s`, and the it compares the strings. If they don't match they fail. Since the pathname of the file being opened is not absolute, we can easily bypass this check by running `cheatme` from a different path where we can control the `user.txt` file. Let's remember this for later, when we start our exploitation.
 
 `sub_8048AF5()` is the function that checks for the password has this code:
-```C
+```c
 int sub_8048AF5()
 {
   int v0; // ST20_4@7
@@ -135,10 +135,10 @@ Of course the first thing the function does is loading the user input in `s1`, w
 
 Then the first 16 bytes of `s1` are copied into `dest`, and it checks whether `dest == "ContestChallenge"`.
 
-Then it copies the first 5 bytes of `s2` in `nptr`, converts them to an integer, and checks if this number is greater than 9999. Then it does a bunch of coperations in `sub_80489B4()` and `sub_8048A5A()`, but we already know enough to start attacking the software. Let's move onto the next and last function.
+Then it copies the first 5 bytes of `s2` in `nptr`, converts them to an integer, and checks if this number is greater than 9999. Then it does a bunch of operations in `sub_80489B4()` and `sub_8048A5A()`, but we already know enough to start attacking the software. Let's move onto the next and last function.
 
 `sub_8048D77()` is the function that runs a python file called `get_flag.py`:
-```C
+```c
 int sub_8048D77()
 {
   __uid_t v0; // ebx@4
