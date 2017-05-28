@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "WhiteHat Contest 13 - Da-Lat-City"
+title: "WhiteHat Contest 13 - Da Lat City"
 date:   2017-05-28 13:00
 categories: CTF
 tags: [WhiteHatContest13]
