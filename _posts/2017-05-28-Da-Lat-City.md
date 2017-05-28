@@ -166,7 +166,7 @@ int sub_8048D77()
 Nothing too complicated here, after setting `euid` and `egid` (the binary is +s on the remote server,) it runs `./get_flag.py`. Also in this case it's a relative path, so it can be controlled.
 
 Ok let's plan an attack:
-1. We have to replicate the original environment because there are many relevant files that are either loaded and executed with relative paths.
+1. We have to replicate the original environment because there are many relevant files that are either loaded or executed with relative paths.
 2. We can bypass the username check by adding our own username in the `user.txt` file in the replicated environment.
 3. We can bypass the password by providing the string `ContestChallenge-XXXXX` where XXXXX is a number.
 4. We can run any command by creating `get_flag.py` with arbitrary content. Or we can run the original file if we want.
