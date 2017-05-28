@@ -74,7 +74,7 @@ int sub_8048C97()
   return *MK_FP(__GS__, 20) ^ c;
 }
 ```
-It basically opens the file `../../problem/login/user.txt` in `s1`, reads user input in `s`, and the it compares the strings. If they don't match they fail. Since the pathname of the file being opened is absolute, we can easily bypass this check by running `cheatme` from a different path where we can control the `user.txt` file. Let's remember this for later, when we start our exploitation.
+It basically opens the file `../../problem/login/user.txt` in `s1`, reads user input in `s`, and the it compares the strings. If they don't match they fail. Since the pathname of the file being opened is not absolute, we can easily bypass this check by running `cheatme` from a different path where we can control the `user.txt` file. Let's remember this for later, when we start our exploitation.
 
 `sub_8048AF5()` is the function that checks for the password has this code:
 ```C
