@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "WhiteHat Contest 13 - Da-Lat-City"
-date:   2017-04-23 00:00
+date:   2017-05-28 13:00
 categories: CTF
 tags: [WhiteHatContest13]
 categories: [pwn]
@@ -10,7 +10,7 @@ author: jbz
 
 Pwnable - 100 Points
 
-This was an easy pwn challenge. The organizer provided ssh access to one of their servers and you had to exploit this `cheatme` binary to get the flag. You can find the binary here.
+This was an easy pwn challenge. The organizer provided ssh access to one of their servers and you had to exploit this `cheatme` binary to get the flag. You can find the binary [here](https://github.com/jbzteam/CTF/raw/master/WhiteHatContest13/Da-Lat-City/cheatme).
 
 First of all, we can see that the binary is a stripped, 32-bit ELF:
 ```
