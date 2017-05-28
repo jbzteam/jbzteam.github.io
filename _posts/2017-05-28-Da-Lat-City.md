@@ -163,7 +163,7 @@ int sub_8048D77()
   return system("./get_flag.py");
 }
 ```
-Nothing too complicated here, after setting `euid` and `egid` (the binary is +s on the remote server,) it runs `./get_flag.py`. Also in this case it's a relative path, so it can be controlled.
+Nothing too complicated here, after setting `euid` and `egid` (the binary is +s on the remote server), it runs `./get_flag.py`. Also in this case it's a relative path, so it can be controlled.
 
 Ok let's plan an attack:
 1. We have to replicate the original environment because there are many relevant files that are either loaded or executed with relative paths.
