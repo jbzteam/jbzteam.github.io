@@ -204,4 +204,4 @@ Actually, the given file contains other stuff, that we couldn't understand. Also
 
 And now, the solution in 1 line :D
 
-`od -j 6145 -N 512 -t u1 -An -w1 -v 2bright | awk 'BEGIN {i=0} { c=xor($1,(512-NR+1))%256; if(c>127)c-=256; if(NR%64!=0)printf "%c",c }' | xxd -b -c 3 | cut`
+`od -j 6145 -N 512 -t u1 -An -w1 -v 2bright | awk 'BEGIN {i=0} { c=xor($1,(512-NR+1))%256; if(c>127)c-=256; if(NR%64!=0)printf "%c",c }' | xxd -b -c 3 | cut -b 10-38 |tr 0 ''`
