@@ -14,7 +14,7 @@ In ancient times, giants ruled the world. Thought long gone, some giants has onc
 
 Solves: 8
 
-Download: http://dl.ctf.rocks/2bright.tar.gz
+Download: https://github.com/jbzteam/CTF/blob/master/SecurityFest2017/2bright/2bright.tar.gz
 
 By importing the given file on `Audacity` using `8 bit pcm` as encoding  and `1` as channel we can better understand the structure of the file. By zooming on about half the file we can notice the following waveform:
 
