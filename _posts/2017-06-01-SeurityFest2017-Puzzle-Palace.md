@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SecurityFest 2016 - Puzzle palace"
+title: "SecurityFest 2017 - Puzzle palace"
 date:   2017-06-01 20:00
 categories: CTF
 tags: [SecurityFest2017]
