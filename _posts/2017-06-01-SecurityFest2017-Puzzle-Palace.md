@@ -8,9 +8,9 @@ categories: [pwn]
 author: jbz
 ---
 
-Pwn - 100 Points
-
 _Adventure time! Find the magic bytes, kill the wizard, get all the flags!_
+
+Pwn - 100 Points
 
 This was a very fun challenge, too bad it was only worth 100 points :). The organizer provided the libc and a README containing this: `Yep you only get the libc, connect to the service and go for an adventure to get the rest.`
 
