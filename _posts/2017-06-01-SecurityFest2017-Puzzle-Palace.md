@@ -54,7 +54,7 @@ with open("bin", "w") as f:
             f.write(chr(int(x, 16)))
         s.sendline("2")
 ```
-Yes, there is no check for EOF but the script crashes when it reached EOF so it's good enough :).
+Yes, there is no check for EOF but the script crashes when it reached EOF so it's good enough :). You can find the dumped binary [here](https://github.com/jbzteam/CTF/raw/master/SecurityFest2017/PuzzlePalace/bin).
 
 Let's see what the dumped binary is:
 ```
