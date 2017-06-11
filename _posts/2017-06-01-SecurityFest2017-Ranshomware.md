@@ -7,11 +7,10 @@ tags: [SecurityFest2017]
 categories: [Crypto]
 author: jbz
 ---
-
- We found an sh ransomware on a server. Can you help us recover the server's data? 
+We found an sh ransomware on a server. Can you help us recover the server's data? 
  
- ## Writeup
- This challenge provided an archive with a `ranshomware.sh` bash script, a `flag.txt` encrypted file in the `flags` folder and a `debian-40r9-amd64-businesscard.iso` encrypted file, along with some `encrypted.txt` file with an hash inside.
+
+This challenge provided an archive with a `ranshomware.sh` bash script, a `flag.txt` encrypted file in the `flags` folder and a `debian-40r9-amd64-businesscard.iso` encrypted file, along with some `encrypted.txt` file with an hash inside.
  
 Reading the bash script we discovered those files were encrypted with AES-256-CTR mode. The key was derived directly from `/dev/urandom`.
 
