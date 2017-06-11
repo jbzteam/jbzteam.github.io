@@ -79,10 +79,16 @@ print "\n";
 Now we can extract all the requests containing `what=` from wireshark (`http contains "what="`), use a grep to get the what parameter content, decrypt all of them, grep for `secret_flag`, so we can get only the query used to get the flag from the DB with the SQLi and finally extract only the last request for each `SUBSTR` index, so we can get the flag.
 
 ```
-smaury@hitch-hicker:/tmp$ grep -Eo "af\w+" packets > what
-smaury@hitch-hicker:/tmp$ while read line; do ./dec.pl $line; done < what | grep secret_flag > secret_flag
-smaury@hitch-hicker:/tmp$ while read line; do NUM=$(echo $line | grep -Eo "\(flag,\w,\w\)" | cut -d, -f2); if [[ $OLDNUM != "" && $NUM != $OLDNUM ]];then echo $CHAR; fi; OLDNUM=$NUM; CHAR=$(echo $line | cut -d"'" -f2); done < secret_flag
+grep -Eo "af\w+" packets > what
+```
 
+```
+while read line; do ./dec.pl $line; done < what | grep secret_flag > secret_flag
+```
+
+```
+while read line; do NUM=$(echo $line | grep -Eo "\(flag,\w,\w\)" | cut -d, -f2); if [[ $OLDNUM != "" && $NUM != $OLDNUM ]];then echo $CHAR; fi; OLDNUM=$NUM; CHAR=$(echo $line | cut -d"'" -f2); done < secret_flag
+```
 f
 l
 a
