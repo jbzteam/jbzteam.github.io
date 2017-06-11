@@ -11,7 +11,7 @@ author: jbz
 
 We created our own [crypto engine](https://cryptoengine.stillhackinganyway.nl/). Can you decrypt the [flag](https://cryptoengine.stillhackinganyway.nl/flag)?
 
-![flag](https://github.com/jbzteam/CTF/raw/master/SHATeaser2017/flag.png)
+![flag](https://github.com/jbzteam/CTF/raw/master/SHATeaser2017/CryptoEngine/flag.png)
 
 ## Writeup
 We started trying to encrypt a simple `A` text, but the engine replied with `No text to encrypt`. So I've tried with `AAAA` and the server replied with [this image](https://cryptoengine.stillhackinganyway.nl/encrypt?text=AAAA) (Note: the service works with simple GET requests).
@@ -25,7 +25,7 @@ That is exactly the lenght of `flag{md5(str)}`.
 
 We then tried a dummy flag text [flag{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}](https://cryptoengine.stillhackinganyway.nl/encrypt?text=flag{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}) and the first 3 square were exactly the same colors.
 
-![dummy flag](https://github.com/jbzteam/CTF/raw/master/SHATeaser2017/flag{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}.png)
+![dummy flag](https://github.com/jbzteam/CTF/raw/master/SHATeaser2017/CryptoEngine/flag{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}.png)
 
 Checking the colors manually was very painful so we started writing a python script that given a string it would download its image rappresentation and "decode" every color to RGB and then to hex.
 
