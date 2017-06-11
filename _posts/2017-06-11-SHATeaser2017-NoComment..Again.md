@@ -7,11 +7,11 @@ tags: [SHATeaser2017]
 categories: [Reversing]
 author: jbz
 ---
-There might be something hiddenq in this file, can you find it?
-
+There might be something hidden in this file, can you find it?
+[https://github.com/jbzteam/CTF/blob/master/SHATeaser2017/NoComment..Again/NoComment.exe](https://github.com/jbzteam/CTF/blob/master/SHATeaser2017/NoComment..Again/NoComment.exe)
  
 
-In this challenge a windows executable is given and it is asked to find the flag. When executed it ask for a password:
+In this challenge a windows executable is given and it is asked to find the flag. When executed it asks for a password:
 
 ```
 $ wine SHA_Teaser_bin100_4d128dfbfedbd7e9a7fc47f9b7c9af9d.exe
