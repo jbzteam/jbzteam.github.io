@@ -43,7 +43,7 @@ Location: http://10.5.5.208:5000/?action=display&what=ce3926706794d911
 ```
 
 
-If you try to search the URL structure you can find that in ebCTF2013's teaser this challege was yet used, but it was a web challenge. http://lmgtfy.com/?q=%22GET+%2F%3Faction%3Ddisplay%26what%3D%22
+If you try to search the URL structure you can find that in ebCTF2013's teaser this challege was yet used, but it was a web challenge. [http://lmgtfy.com/?q=%22GET+%2F%3Faction%3Ddisplay%26what%3D%22](http://lmgtfy.com/?q=%22GET+%2F%3Faction%3Ddisplay%26what%3D%22)
 
 So we can just use their approach to find what is the xor key used here.
 
