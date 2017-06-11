@@ -88,7 +88,6 @@ while read line; do ./dec.pl $line; done < what | grep secret_flag > secret_flag
 
 ```
 while read line; do NUM=$(echo $line | grep -Eo "\(flag,\w,\w\)" | cut -d, -f2); if [[ $OLDNUM != "" && $NUM != $OLDNUM ]];then echo $CHAR; fi; OLDNUM=$NUM; CHAR=$(echo $line | cut -d"'" -f2); done < secret_flag
-```
 f
 l
 a
