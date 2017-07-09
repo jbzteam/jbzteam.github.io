@@ -91,3 +91,4 @@ for i in range(1,200):
   print next()
 ```
 
+`flag{LCG_1s_m0re_brok3n_th4n_you_th!nk}`
