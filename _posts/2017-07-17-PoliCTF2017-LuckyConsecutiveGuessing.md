@@ -58,7 +58,7 @@ Part of the source is the following:
 It is a classic linear congruential generator, where the current random number is not the full state, but just the 32 most significant bits.
 
 
-At the first comment here https://crypto.stackexchange.com/questions/10608/how-to-attack-a-fixed-lcg-with-partial-output is explained how to solve this challenge.
+At the first comment here [https://crypto.stackexchange.com/questions/10608/how-to-attack-a-fixed-lcg-with-partial-output](https://crypto.stackexchange.com/questions/10608/how-to-attack-a-fixed-lcg-with-partial-output) is explained how to solve this challenge.
 
 An here is the implementation:
 ```
