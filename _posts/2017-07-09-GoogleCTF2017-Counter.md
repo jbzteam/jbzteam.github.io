@@ -4,7 +4,7 @@ title:  "GoogleCTF 2017 - Counting"
 date:   2017-07-09 22:06
 categories: CTF
 tags: [GoogleCTF2017]
-categories: [Reversing]
+categories: Reversing
 author: jbz
 ---
 
@@ -14,7 +14,7 @@ author: jbz
 
 
 
-With this witeup we won 100$ from Google :)
+With this writeup we won 100$ from Google :)
 
 
 In this challenge, an executable is given (with some additional file), and it is required to provide the output of the executable when the input is "9009131337".
@@ -131,7 +131,7 @@ signed __int64 __fastcall main(int a1, char **a2, char **a3)
     while ( v6 != 26 );
     *v5 = v4;
     sub_4008A0(v5, 0);
-    __printf_chk(1LL, "CTF{%016llx}\n", *v7);
+    __printf_chk(1LL, "CTF{{ "{%" }}016llx}\n", *v7);
     free(v7);
     result = 0LL;
   }
@@ -502,7 +502,7 @@ int main(int argc, char *argv[]){
     unsigned long v5[26] = {0};
     v5[0] = v4;
     f(v5,0);
-    printf("%ld CTF{%016lx}\n",calls,v5[0]);
+    printf("%ld CTF{{ "{%" }}016lx}\n",calls,v5[0]);
 }
 
 ```
@@ -828,7 +828,7 @@ $ ./source 11 | grep "64)" | cut -d ' ' -f 3,4,9 | sort -u -n
 
 We can notice that 8 is exacty 89 - 81. After some trials we can notice that, given some input x, the program computes some number c and then it computes fib(x) mod c.
 
-```
+{% highlight shell %}
 $ echo "x  c  result"; for i in `seq 11 25`; do ./source $i | grep "64)" | cut -d ' ' -f 3,4,9 | sort -n | uniq | tail -n 1 ; done
 x  c  result
 11 81 8
@@ -846,7 +846,7 @@ x  c  result
 23 233 231
 24 243 198
 25 266 13
-```
+{% endhighlight %}
 
 What remains to do is to see how c (81,90,99,116,133,137,149, ...) is computed. First we can see that c is produced by the function 20:
 
@@ -975,7 +975,7 @@ int main(int argc, char *argv[]){
         sum += collatz(i);
     }
     uint64_t f = fib(n,sum);
-    printf("CTF{%016lx}\n",f);
+    printf("CTF{{ "{%" }}016lx}\n",f);
 }
 
 ```
