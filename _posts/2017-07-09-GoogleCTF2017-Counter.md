@@ -272,9 +272,7 @@ The program starts at the first line and  terminates when the last line is reach
 
 Each line is of the form:
 
-```
-OPCODE INPOS JUMP1 JUMP2
-```
+`OPCODE INPOS JUMP1 JUMP2`
 
 There are just three operations:
 
@@ -925,9 +923,9 @@ $ ./source 11 | grep "45)\|29)"
 
 The calls are actually printed when they end, so the right order is the following:
 
-```
-f29(11) -> f45(11) -> f45(34) -> f45(17) -> ... -> f45(2) -> f29() = 14
-```
+
+`f29(11) -> f45(11) -> f45(34) -> f45(17) -> ... -> f45(2) -> f29() = 14`
+
 Notice that 14 is just the length of the chain 11,34,17,52,26,13,40,20,10,5,16,8,4,2. But, what is this chain? This is Collatz!
 
 Collatz says the following: take a number, if it is even divide it by two, if it is odd multiply it by three and add one. By repeating this process you'll arrive to 1. It is an open problem to prove that the Collatz conjecture is true, but it actually holds for every big number that you can test with a computer. f29 essentially counts the number of steps required to reach 1, starting from the given number.
@@ -1008,13 +1006,10 @@ uint64_t collatz(uint64_t n){
 
 Let's run it!
 
-```
-$ ./program 9009131337
+`$ ./program 9009131337`
 
-```
 And, after 10-15 minutes...
 
-```
-CTF{000001bae15b6382}
-```
+
+`CTF{000001bae15b6382}`
 
