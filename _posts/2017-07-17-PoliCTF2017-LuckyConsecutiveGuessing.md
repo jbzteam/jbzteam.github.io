@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "PoliCTF2017 - Lucky Consecutive Guessing"
+title:  "PoliCTF 2017 - Lucky Consecutive Guessing"
 date:   2017-07-17 17:58
 categories: CTF
 tags: [PoliCTF2017]
