@@ -22,7 +22,7 @@ In this challenge, an executable is given (with some additional file), and it is
 By trying to execute the program on small inputs the result is the following:
 
 
-```
+```bash
 $ for i in `seq 0 30`; do ./counter $i ; done
 CTF{0000000000000000}
 CTF{0000000000000000}
@@ -59,7 +59,7 @@ CTF{000000000000013a}
 
 By trying bigger inputs, we can see that the program becomes slower and slower: it seems to roughly double at each increment of the input...
 
-```
+```bash
 $ for i in `seq 30 37`; do time ./counter $i ; done
 CTF{000000000000013a}
 
@@ -107,7 +107,7 @@ Thus, compute the output of `9009131337` would require too much time.
 
 Let's see what the program does, with IDA and hexrays.
 
-```
+```c
 signed __int64 __fastcall main(int a1, char **a2, char **a3)
 {
   signed __int64 result; // rax@2
@@ -148,7 +148,7 @@ The main function is simple: it parses the given parameter, it reads the additio
 
 Let's see what `sub_4008A0` does.
 
-``` 
+```c
 void __fastcall sub_4008A0(_QWORD *__attribute__((__org_arrdim(0,0))) a1, int a2)
 {
   int v2; // edx@1
@@ -221,7 +221,7 @@ void __fastcall sub_4008A0(_QWORD *__attribute__((__org_arrdim(0,0))) a1, int a2
 
 This is the decompiled code. After making it more readable we obtain the following:
 
-```
+```c
 struct line dump[] = {...}; //it roughly contains the additional file
 
 struct line{
@@ -327,7 +327,7 @@ The problem was that the code is not so well structured. In some parts there wer
 
 The complete program is the following:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -508,7 +508,7 @@ int main(int argc, char *argv[]){
 ```
 In particular, this part writes the memory after some interesting function calls:
 
-```
+```c
       f(copy, lines[i].p1);
       if( lines[i].p1==20 || lines[i].p1==29 || lines[i].p1 == 45||lines[i].p1 == 64){
           printf("%d) %ld %ld %ld %ld %ld %ld -> %ld\n",lines[i].p1,input[0],input[1],input[2],input[3],input[4],input[25],copy[0]);
@@ -517,7 +517,7 @@ In particular, this part writes the memory after some interesting function calls
 
 Let's see the calls to function 64:
 
-```
+```bash
 $ ./source 11 | grep "64)"
 64) 1 1 81 0 0 0 -> 1
 64) 0 0 81 0 1 0 -> 0
@@ -809,7 +809,7 @@ $ ./source 11 | grep "64)"
 ```
 The list is very long, but there are many repeated calls, let's try to filter them.
 
-```
+```bash
 $ ./source 11 | grep "64)" | cut -d ' ' -f 3,4,9 | sort -u -n
 0 81 0
 1 81 1
@@ -872,7 +872,7 @@ s[0]=0;
 ```
 So, let's see the calls to line 29:
 
-```
+```bash
 $ ./source 11 | grep "29)" 
 29) 0 11 0 0 0 0 -> 14
 29) 0 10 14 0 0 0 -> 6
@@ -892,7 +892,7 @@ These are the results: 14 6 19 3 16 8 5 2 7 1 0 0. They sum up to 81! By doing s
 
 By just counting the number of calls, we can understand something:
 
-```
+```bash
 $ ./source 11 | grep "45)"  | wc -l
 81
 ```
@@ -901,7 +901,7 @@ The total number of calls is equal to the final result!
 
 Let's see better what's happening:
 
-```
+```bash
 $ ./source 11 | grep "45)\|29)"  
 45) 0 11 0 9 0 0 -> 34
 45) 0 34 1 32 0 0 -> 17
@@ -943,7 +943,7 @@ compute fibonacci(x) modulo c
 
 Let's implement this. Notice that we can not just compute fib(n) and then compute the modulo, because fib(n) would not fit in an integer, so we compute the modulo while computing fib.
 
-```
+```c
 #include <stdint.h>
 
 uint64_t collatz(uint64_t n){
@@ -982,7 +982,7 @@ int main(int argc, char *argv[]){
 
 By trying this program you can see that it generates the same output of the original program. The problem is that it is too slow to compute the result given 9009131337 as input. A way to make it faster is to reuse the results of the previous collatz calls:
 
-```
+```c
 #define SAVE 1000000
 uint64_t saved[SAVE];
 
