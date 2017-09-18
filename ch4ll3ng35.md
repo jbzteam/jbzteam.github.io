@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "How to Join"
+view : "hidden"
 ---
 
 Se sei finito qui significa che sei interessato a far parte del team. Ti proponiamo alcune sfide, differenziate in base alle tipiche categorie dei CTF Jeopardy, che dovrai risolvere per poter entrare nel team.
