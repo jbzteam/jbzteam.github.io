@@ -2,7 +2,6 @@
 layout: page
 title: "How to Join"
 ---
-{% last_modified_at %}
 
 Se sei finito qui significa che sei interessato a far parte del team. Ti proponiamo alcune sfide, differenziate in base alle tipiche categorie dei CTF Jeopardy, che dovrai risolvere per poter entrare nel team.
 
@@ -14,6 +13,7 @@ Il flag format è `JBZ{h4v34g00dt1m3}`
 
 **N.B.** A seguire troverai diverse challenge divise in due categorie: quelle considerate valide per l'ammissione e quelle che non lo sono. Questa distinzione viene fatta perchè, in base ai membri che compongono il team, potremmo avere necessità di qualcuno che abbia conoscenze in un certo ambito piuttosto che un altro, questo però non significa che la cosa sia permanente! Se la tua categoria non è tra quelle valide per l'ammissione torna pure un'altra volta, potrebbero esserci cambiamenti
 
+*Update: 18/09/2017*
 
 ### Valide per l'ammissione
 - [Crypto](https://github.com/jbzteam/capturetheflag.it/blob/master/Challenges/Crypto/JBZCryptoChall.tar.xz?raw=true)
