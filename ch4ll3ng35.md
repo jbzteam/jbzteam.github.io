@@ -1,6 +1,6 @@
 ---
 layout: page
-title:  "Challenges"
+title: How to Join
 ---
 
 ## Cos'è questo? 
