@@ -7,7 +7,7 @@
 
 # Site settings
 title: JBZ CTF Team
-email: CBgOEQQMMigWDxoHLCYWGjUvGgEYAwAERU0MAm0=
+email: /ch4ll3ng35  
 description:  We Criuz, che si owna di bello?
 
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -38,5 +38,4 @@ gems:
   - jekyll-sitemap
   - jekyll-paginate
   - jekyll-redirect-from
-  - jekyll-seo-tag
-  - jekyll-last-modified-at
+  - jekyll-seo-tag 
