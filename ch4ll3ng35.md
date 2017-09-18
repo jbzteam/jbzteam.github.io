@@ -1,3 +1,8 @@
+---
+layout: page
+title:  "Challenges"
+---
+
 ## Cos'è questo? 
 Se sei finito qui significa che sei interessato a far parte del team quindi ti proponiamo alcune sfide, differenziate in base alle tipiche categorie dei CTF Jeopardy, che dovrai risolvere per poter entrare nel team.
 
