@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "BackdoorCTF 2017 - Extend Me - 250"
+title:  "BackdoorCTF 2017 - Extends Me"
 date:   2017-09-24 22:00
 categories: CTF
 tags: [BackdoorCTF2017]
@@ -8,7 +8,7 @@ categories: [web]
 author: jbz
 ---
 
-The challenge was about gaining access to a web server protected by a login.
+The challenge was about gaining access to a web server protected by a login. Crypto/Web 250
 
 The server source code is available [here](https://github.com/jbzteam/CTF/blob/master/BackdoorCTF2017/server.py).
 
