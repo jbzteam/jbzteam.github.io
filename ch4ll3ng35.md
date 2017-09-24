@@ -17,7 +17,7 @@ Il flag format è `JBZ{h4v34g00dt1m3}`
 *Update: 24/09/2017*
 
 ### Valide per l'ammissione
-- [Crypto](https://github.com/jbzteam/capturetheflag.it/blob/master/Challenges/Crypto/JBZCryptoChall.tar.xz?raw=true)
+- ~~Crypto~~
 - [Reversing](https://github.com/jbzteam/capturetheflag.it/blob/master/Challenges/Reversing/JBZRevChall.7z?raw=true)
 - ~~Pwn~~
 
