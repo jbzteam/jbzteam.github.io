@@ -2,9 +2,8 @@
 layout: post
 title:  "EkoParty CTF 2017 - silkroad"
 date:   2017-09-18 22:00
-categories: CTF
-tags: [EkoPartyCTF2017]
-categories: [web]
+categories: [EkoPartyCTF2017]
+tags: [Web]
 author: jbz
 ---
 

@@ -2,9 +2,8 @@
 layout: post
 title: "SecurityFest2017 - I Heart Cats"
 date: 2017-06-01 21:55
-categories: CTF
-tags: [SecurityFest2017]
-categories: [Misc]
+categories: [SecurityFest2017]
+tags: [Misc]
 author: jbz
 ---
 

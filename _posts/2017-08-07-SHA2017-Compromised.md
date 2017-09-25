@@ -2,9 +2,8 @@
 layout: post
 title:  "SHA2017CTF - Compromised"
 date:   2017-08-07 00:10
-categories: CTF
-tags: [SHA2017CTF]
-categories: [Forensics]
+categories: [SHA2017CTF]
+tags: [Forensics]
 author: jbz
 ---
 

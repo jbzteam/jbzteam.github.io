@@ -2,9 +2,8 @@
 layout: post
 title:  "InsomnihackTeaser2017 - Shobot"
 date:   2017-01-27 14:15
-categories: CTF
-tags: [InsomnihackTeaser2017]
-categories: [Web]
+categories: [InsomnihackTeaser2017]
+tags: [Web]
 author: jbz
 ---
 Quel momento in cui il web server si ribella contro di te e ti cambia la password...

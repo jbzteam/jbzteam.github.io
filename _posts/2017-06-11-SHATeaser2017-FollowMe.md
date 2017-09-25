@@ -2,9 +2,8 @@
 layout: post
 title:  "SHA Teaser 2017 - FollowMe"
 date:   2017-06-11 14:29
-categories: CTF
-tags: [SHATeaser2017]
-categories: [Web]
+categories: [SHATeaser2017]
+tags: [Web]
 author: jbz
 ---
 We are tracking a hacker, can you help us track the hacker down and bring him to justice?

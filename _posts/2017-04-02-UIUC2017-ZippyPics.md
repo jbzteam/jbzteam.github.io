@@ -2,9 +2,8 @@
 layout: post
 title:  "UIUCTF 2017 - ZippyPics"
 date:   2017-04-30 00:00
-categories: CTF
-tags: [UIUCTF2017]
-categories: [Web]
+categories: [UIUCTF2017]
+tags: [Web]
 author: jbz
 ---
 

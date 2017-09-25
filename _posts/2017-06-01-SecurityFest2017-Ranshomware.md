@@ -2,9 +2,8 @@
 layout: post
 title: "SecurityFest 2017 - Ranshomware"
 date:   2017-06-02 12:04
-categories: CTF
-tags: [SecurityFest2017]
-categories: [Crypto]
+categories: [SecurityFest2017]
+tags: [Crypto]
 author: jbz
 ---
 We found an sh ransomware on a server. Can you help us recover the server's data? 

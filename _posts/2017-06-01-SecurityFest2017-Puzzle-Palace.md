@@ -2,9 +2,8 @@
 layout: post
 title: "SecurityFest2017 - Puzzle palace"
 date:   2017-06-01 20:00
-categories: CTF
-tags: [SecurityFest2017]
-categories: [pwn]
+categories: [SecurityFest2017]
+tags: [Pwn]
 author: jbz
 ---
 

@@ -2,9 +2,8 @@
 layout: post
 title:  "HackInBoCTF 2017 Spring Edition"
 date:   2017-04-03 00:00
-categories: CTF
-tags: [HiBCTF2017]
-categories: [Web,Crypto,Reversing]
+categories: [HiBCTF2017]
+tags: [Web,Crypto,Reversing]
 author: jbz
 ---
 

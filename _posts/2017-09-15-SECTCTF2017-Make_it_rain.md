@@ -2,9 +2,9 @@
 layout: post
 title:  "SEC-T CTF 2017 - Make it rain"
 date:   2017-09-15 22:00
-categories: CTF
-tags: [SECTCTF2017]
-categories: [pwn]
+tags: CTF
+categories: [SECTCTF2017]
+tags: [Pwn]
 author: jbz
 ---
 > Joey: Like four hours I'm just messing around in there. Finally I figure out, that it's a bank. Right, okay wait, okay, so it's a bank. So, this morning, I look in the paper, some cash machine in like Bumsville Idaho, spits out seven hundred dollars into the middle of the street.

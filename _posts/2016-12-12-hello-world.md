@@ -2,7 +2,7 @@
 layout: post
 title:  "Hello World!"
 date:   2016-12-12 13:37
-categories: [ misc ]
+tags: [ misc ]
 author: jbz
 ---
 

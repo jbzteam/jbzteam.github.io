@@ -2,9 +2,8 @@
 layout: post
 title: "SecurityFest 2017 - QR Code Madness"
 date:   2017-06-02 11:59
-categories: CTF
-tags: [SecurityFest2017]
-categories: [Misc]
+categories: [SecurityFest2017]
+tags: [Misc]
 author: jbz
 ---
 

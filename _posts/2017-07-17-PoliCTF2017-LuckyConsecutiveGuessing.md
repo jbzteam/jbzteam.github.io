@@ -2,9 +2,8 @@
 layout: post
 title:  "PoliCTF 2017 - Lucky Consecutive Guessing"
 date:   2017-07-09 17:58
-categories: CTF
-tags: [PoliCTF2017]
-categories: Crypto
+categories: [PoliCTF2017]
+tags: [Crypto]
 author: jbz
 ---
 

@@ -2,9 +2,8 @@
 layout: post
 title: "SecurityFest 2017 - Underconstruction"
 date:   2017-06-01 21:05
-categories: CTF
-tags: [SecurityFest2017]
-categories: [web]
+categories: [SecurityFest2017]
+tags: [Web]
 author: jbz
 ---
 

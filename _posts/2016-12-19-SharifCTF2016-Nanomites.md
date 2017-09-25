@@ -2,9 +2,8 @@
 layout: post
 title:  "SharifCTF2016 - Nanomites"
 date:   2016-12-19 19:30
-categories: CTF
-tags: [SharifCTF2016]
-categories: [Reversing]
+categories: [SharifCTF2016]
+tags: [Reversing]
 author: jbz
 ---
 

@@ -2,9 +2,8 @@
 layout: post
 title:  "GoogleCTF 2017 - Counting"
 date:   2017-07-09 22:06
-categories: CTF
-tags: [GoogleCTF2017]
-categories: Reversing
+categories: [GoogleCTF2017]
+tags: [Reversing]
 author: jbz
 ---
 
