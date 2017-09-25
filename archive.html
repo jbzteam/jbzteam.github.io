@@ -6,10 +6,10 @@ permalink: /archive/
 <!-- # Insert newer event at the beginning -->
 
 <div class="archive">
-  {% for tag in site.tags reversed %}
-  {% assign t = tag | first %}
-  {% assign posts = tag | last %}
-  	<h2>{{ t }}</h2>
+  {% for cat in site.categories  %}
+  {% assign c = cat | first %}
+  {% assign posts = cat | last %}
+  	<h2>{{ c }}</h2>
     <ul class="post-list">
       {% for post in posts %}
         <li>
