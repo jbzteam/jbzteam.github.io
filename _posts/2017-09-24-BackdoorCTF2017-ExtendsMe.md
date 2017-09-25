@@ -2,9 +2,8 @@
 layout: post
 title:  "BackdoorCTF 2017 - Extends Me"
 date:   2017-09-24 22:00
-categories: CTF
-tags: [BackdoorCTF2017]
-categories: [web]
+categories: [BackdoorCTF2017]
+tags: [Web, Crypto]
 author: jbz
 ---
 

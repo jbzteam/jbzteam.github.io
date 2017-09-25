@@ -2,9 +2,8 @@
 layout: post
 title:  "SHA Teaser 2017 - CryptoEngine"
 date:   2017-06-10 00:00
-categories: CTF
-tags: [SHATeaser2017]
-categories: [Crypto]
+categories: [SHATeaser2017]
+tags: [Crypto]
 author: jbz
 ---
 

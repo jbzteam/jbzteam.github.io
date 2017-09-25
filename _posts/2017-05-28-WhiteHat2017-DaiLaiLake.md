@@ -2,9 +2,8 @@
 layout: post
 title: "WhiteHat2017 - Dai Lai Lake"
 date:   2017-05-28 21:06
-categories: CTF
-tags: [WhiteHat2017]
-categories: [Forensics]
+categories: [WhiteHat2017]
+tags: [Forensics]
 author: jbz
 ---
 Can you find my sensitive infomation?

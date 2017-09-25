@@ -2,9 +2,8 @@
 layout: post
 title:  "InsomnihackTeaser2017 - TheGreatEscape 1/3"
 date:   2017-01-27 12:20
-categories: CTF
-tags: [InsomnihackTeaser2017]
-categories: [Forensics]
+categories: [InsomnihackTeaser2017]
+tags: [Forensics]
 author: jbz
 ---
 For this CTF we had a collab with [P=NP team](https://pequalsnp-team.github.io)

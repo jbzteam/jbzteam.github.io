@@ -2,9 +2,8 @@
 layout: post
 title:  "SHA Teaser 2017 - No Commnt.. Again"
 date:   2017-06-11 20:42
-categories: CTF
-tags: [SHATeaser2017]
-categories: [Reversing]
+categories: [SHATeaser2017]
+tags: [Reversing]
 author: jbz
 ---
 There might be something hidden in this file, can you find it?

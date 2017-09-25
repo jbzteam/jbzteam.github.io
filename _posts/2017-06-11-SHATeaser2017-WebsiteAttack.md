@@ -2,9 +2,8 @@
 layout: post
 title:  "SHA Teaser 2017 - WebsiteAttack"
 date:   2017-06-11 19:21
-categories: CTF
-tags: [SHATeaser2017]
-categories: [Forensics]
+categories: [SHATeaser2017]
+tags: [Forensics]
 author: jbz
 ---
 Our website received an attack in 2013, we managed to capture the attack in this pcap. Can you find out if we leaked some sensitive information? (pcap file attached)

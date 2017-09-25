@@ -2,9 +2,8 @@
 layout: post
 title:  "SecurityFest2017 - Empty"
 date:   2017-06-01 20:14
-categories: CTF
-tags: [SecurityFest2017]
-categories: [Forensics]
+categories: [SecurityFest2017]
+tags: [Forensics]
 author: jbz
 ---
 

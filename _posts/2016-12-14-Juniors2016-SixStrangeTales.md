@@ -2,9 +2,8 @@
 layout: post
 title:  "Juniors2016 - Six Strange Tales"
 date:   2016-12-14 03:15
-categories: CTF
-tags: [Juniors2016]
-categories: [Crypto]
+categories: [Juniors2016]
+tags: [Crypto]
 author: jbz
 ---
 

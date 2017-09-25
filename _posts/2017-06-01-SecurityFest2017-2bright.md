@@ -2,9 +2,8 @@
 layout: post
 title: "SecurityFest 2017 - 2bright"
 date:   2017-06-01 21:54
-categories: CTF
-tags: [SecurityFest2017]
-categories: [Reversing]
+categories: [SecurityFest2017]
+tags: [Reversing]
 author: jbz
 ---
 
