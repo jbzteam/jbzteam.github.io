@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "HackDatKiwi CTF 2017 - serialnumber"
-date:   2017-09-18 22:00
+date:   2017-10-16 23:00
 categories: [HackDatKiwi2017]
 tags: [Web]
 author: jbz
