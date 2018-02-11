@@ -111,7 +111,7 @@ Found:c
 Found:} 
 ```
 
-How to find the 2 css properties with these letters? Let's check the CSS properties one by one to see which ones have the corrisponding letters.  
+How to find the 2 css properties with these letters? Let's check the CSS properties one by one to see which ones have the matching letters.  
 
 Could we use Python, C, or GO? Yes, but we prefer the quick and dirty `grep` and `awk`!
 
