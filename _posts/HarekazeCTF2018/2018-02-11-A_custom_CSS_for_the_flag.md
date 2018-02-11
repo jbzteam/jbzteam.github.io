@@ -116,9 +116,7 @@ How to find the 2 css properties with these letters? Let's check the CSS propert
 Could we use Python, C, or GO? Yes, but we prefer the quick and dirty `grep` and `awk`!
 
 ```bash
-| grep -v $'g|h|j|p|q|w|x|y' | awk '/d/ && /b/ && /o/ && /m/ && /t/ && /f/ && /l/ && /i/ && /n/ && /s/ && /u/ {print;}' | wc -l
-
-|grep -v 'g' |grep -v 'h' |grep -v 'j'  |grep -v 'p' |grep -v 'q' |grep -v 'w' |grep -v 'x' |grep -v 'y'  |grep 'd'  |grep 'b'  |grep 'o'  |grep 'm' |grep 't' |grep 'f' |grep 'l'  |grep 'i' |grep 'n' |grep 's' |grep 'u'
+| grep -v $'g|h|j|p|q|w|x|y' | awk '/d/ && /b/ && /o/ && /m/ && /t/ && /f/ && /l/ && /i/ && /n/ && /s/ && /u/ {print;}'
 ```
 So we are given a list of some possible flags:
 ```
