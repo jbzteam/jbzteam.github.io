@@ -7,7 +7,6 @@ tags: [Reversing]
 author: jbz
 ---
 
-# Intro
  For this challenge we are given a file called `slammer`, let's check what it might be using
 the `file` command.
 
