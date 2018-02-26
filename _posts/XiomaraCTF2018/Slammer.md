@@ -251,6 +251,6 @@ FLAG: xiomara{cool_thumbs_up_if_solved_using_r2pipe}
 ```
 
  That's all for this possible solution of the challenge. It could be solved in other ways doing
-less reversing, for example with pwntools (link [here](https://ctftime.org/writeup/8861) for a
+less reversing, for example with `pintools` (link [here](https://ctftime.org/writeup/8861) for a
 writeup using that option)
 
