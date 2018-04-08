@@ -11,7 +11,7 @@ author: jbz
 >Once you have all the needed information from previous step, go have a look here (https://gcorp-stage-4.ctf.insecurity-insa.fr/)
 >Note: you should validate stage 3 to have more information on stage 4.
 
-By loading the page at https://gcorp-stage-4.ctf.insecurity-insa.fr/ we obtain:
+By loading the page at `https://gcorp-stage-4.ctf.insecurity-insa.fr/` we obtain:
 ```
                         G-Corp Emergency Override
                                  __    _
