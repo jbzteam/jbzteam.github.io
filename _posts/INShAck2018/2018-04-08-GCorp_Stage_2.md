@@ -13,7 +13,7 @@ author: jbz
 >
 >Note: you should validate stage 1 to have more information on stage 2.
 
-The binary for this challenge was inside a pcap file from stage 2.
+The binary for this challenge was inside a pcap file from stage 1.
 
 If we visit the site we are presented with this message:
 ```
