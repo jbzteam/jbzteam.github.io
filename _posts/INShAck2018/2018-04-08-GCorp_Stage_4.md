@@ -60,11 +60,14 @@ int main(int argc, char **argv)
 ```
 
 Start cbmc that finds the right key for us:
-```$ cbmc --trace source.c | grep gKEY | cut -d '=' -f 2 | cut -d ' ' -f 1 | awk '{ printf "%c",$1 }'
-sn[$p}u LDH*}|uh\HWF\PU`_#>Z(`V-1F S#??_(Pw#S?GRA)~7OsRd!05I>4OW```
+```
+$ cbmc --trace source.c | grep gKEY | cut -d '=' -f 2 | cut -d ' ' -f 1 | awk '{ printf "%c",$1 }'
+sn[$p}u LDH*}|uh\HWF\PU`_#>Z(`V-1F S#??_(Pw#S?GRA)~7OsRd!05I>4OW
+```
 
 And we can check that it is valid:
-```$ ./stage4 check
+```
+$ ./stage4 check
 sn[$p}u LDH*}|uh\HWF\PU`_#>Z(`V-1F S#??_(Pw#S?GRA)~7OsRd!05I>4OW
 OK
 ```
