@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "INS'hAck CTF 2018 - Crypt0r part3"
+title:  "INS'hAck CTF 2018 - GCorp Stage 4"
 date:   2018-04-08 23:00
 categories: [INShAck2018]
 tags: [Reversing]
