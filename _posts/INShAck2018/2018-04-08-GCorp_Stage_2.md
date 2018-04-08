@@ -39,7 +39,7 @@ If we visit the site we are presented with this message:
 
 POST valid DNA data (input limited to 1024 bytes).
 ```
-DNA can be represented using strings of letters, and inside the pcap of stage 2 there were indeed some of these. Now we could just reverse the binary or trying to send some POST requests to the server.
+DNA can be represented using strings of letters, and inside the pcap of stage 1 there were indeed some of these. Now we could just reverse the binary or trying to send some POST requests to the server.
 We first tried the second option.
 
 If we send a POST request containing `A` the program responds with:
