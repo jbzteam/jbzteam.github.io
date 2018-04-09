@@ -27,7 +27,8 @@ After a little bit of struggling we used `hexdump` on
 `privatekey.bin` and what we found? See it yourself:
 
 ```bash
-jbz:src jbz$ hexdump privatekey.bin 3 62 70 10 61
+$ hexdump privatekey.bin
+0000000 1d 1d 1d 1d 1d 72 75 76 79 7f 10 63 62 70 10 61
 0000010 62 79 66 71 64 75 10 7a 74 69 1d 1d 1c 1d 1d 3a
 0000020 7d 79 79 75 5f 47 79 73 70 71 7a 72 70 61 75 71
 ...
@@ -51,7 +52,7 @@ We went back and check if this was a frequency of the first note **F** and indee
 
 So we xored the rest of the privatekey using all the frequency of the notes and we got the privatekey:
 
-```bash
+```
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAzM+Z7PPPj8l6coIATywrjehN1WljdDbZ7icA3YQNBcovrovh
 BU3xcXzOuHzsb05TK5wQuwB2mYUlCH/TcCChz4EOy5hymb/MIKmYRyjljNW6BMbU
@@ -107,7 +108,7 @@ print(xor(begin_c, begin_p))
 #print(xor(end_c, end_p))
 
 def note2bin(freq):
-    return format(freq, '016b'
+    return format(freq, '016b')
 
 def repeat(s, wanted):
     return (s * (wanted//len(s) + 1))[:wanted]
