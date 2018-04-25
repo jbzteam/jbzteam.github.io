@@ -26,7 +26,7 @@ The flag format is `JBZ{1mm4pwnus0b4dly}`.
 - ~~Crypto~~
 - [Reversing](https://github.com/jbzteam/capturetheflag.it/blob/master/Challenges/Reversing/JBZRevChall.7z?raw=true)
 - ~~Pwn~~
-- [Forensics](https://github.com/jbzteam/capturetheflag.it/blob/master/Challenges/Forensics/JBZStegoChall.7z?raw=true)
+- ~~Forensics~~
 - ~~Web~~
 
 
