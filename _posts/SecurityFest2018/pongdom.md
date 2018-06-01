@@ -1,0 +1,45 @@
+---
+layout: post
+title:  "Security Fest 2018 - Pongdom"
+date:   2018-02-26 19:02
+categories: [SecurityFest2018]
+tags: [Web]
+author: jbz
+---
+
+## Pongdom - Web (314)
+    Even AI needs uptime checks.
+    Solves: 8
+    Service: http://pongdom.alieni.se:3002/
+    Author: avlidienbrunn
+    
+    2018-05-31 11:59:15 marqueexss
+    2018-06-01 00:36:08 jbz
+    2018-06-01 11:44:31 dcua
+
+
+This challenge was really trivial even if it was solved by just 8 teams.
+
+After you register and login to the service you are allowed to submit and url and the service will just make an HTTP GET request to check if it's up or down and will show you some bytes of the reply.
+
+As a first attempt we submitted a Burp Collaborator link to see all interactions and what we've got are 2 DNS queries of type A and an HTTP GET request.
+
+We can now simply guess that the server first tries to resolv the domain to (maybe) check if it's an allowed resource, than does the actual request.
+
+We also noticed that the IP address was from an AWS istance, this means that if we can obtain a SSRF (Server Side Request Forgery) we can interact with AWS' APIs.
+
+So we tried to input `http://169.254.169.254.xip.io` as URL but we immediatly got an error message: `Forbidden hostname!`
+
+### It's time for a DNS Race condition!
+
+We created two DNS records of type A:
+```
+aws.jbz.swag.        59      IN      A       8.8.8.8
+aws.jbz.swag.        59      IN      A       169.254.169.254
+```
+
+Then we submitted `http://aws.jbz.swag/latest/user-data` as URL hoping that the server will get `8.8.8.8` as first DNS resolution, which would bypass the IP check and `169.254.169.254` as second DNS resolution, which would give us the AWS istance configuration.
+
+We were lucky enougth to win the race at the first attempt and kabbooom a message telling us tha the URL was correctly added appeared!
+
+Than we navigated to the status page and the flag was there: `SCTF{w@fflez_w1th_cl0udb3rryj@m}` :D
