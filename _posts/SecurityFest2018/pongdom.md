@@ -1,21 +1,27 @@
 ---
 layout: post
 title:  "Security Fest 2018 - Pongdom"
-date:   2018-02-26 19:02
+date:   2018-06-01 20:00
 categories: [SecurityFest2018]
 tags: [Web]
 author: jbz
 ---
 
-## Pongdom - Web (314)
-    Even AI needs uptime checks.
-    Solves: 8
-    Service: http://pongdom.alieni.se:3002/
-    Author: avlidienbrunn
-    
-    2018-05-31 11:59:15 marqueexss
-    2018-06-01 00:36:08 jbz
-    2018-06-01 11:44:31 dcua
+> Even AI needs uptime checks.
+>
+> Solves: 8
+>
+> Service: http://pongdom.alieni.se:3002/
+>
+> Author: avlidienbrunn
+>
+>
+>
+> 2018-05-31 11:59:15 marqueexss
+>
+> 2018-06-01 00:36:08 jbz
+>
+> 2018-06-01 11:44:31 dcua
 
 
 This challenge was really trivial even if it was solved by just 8 teams.
