@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Rubenscube - Midnight Sun CTF 2019 Quals"
-date:   2019-04-16 13:37
+title:  "Midnight Sun CTF 2019 Quals - Rubenscube"
+date:   2019-04-06 13:37
 categories: [MidnightSunCTFQuals2019]
 tags: [Web]
 author: jbz
