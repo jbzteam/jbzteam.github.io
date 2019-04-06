@@ -7,17 +7,15 @@ tags: [Web]
 author: jbz
 ---
 
-### TL;DR ###
-
-This challenge was about exploiting an `XXE` through an `SVG`, then invoke a `PHP Object Injection` through the `XXE` using `phar://` and finally get `RCE`.
-
-### Intro ###
-
 The challenge description was minimal, just telling us about an image sharing service:
 ```
 Sharing is caring. For picture wizard use only.
 Service: http://ruben-01.play.midnightsunctf.se:8080
 ```
+
+### TL;DR ###
+
+This challenge was about exploiting an `XXE` through an `SVG`, then invoke a `PHP Object Injection` through the `XXE` using `phar://` and finally get `RCE`.
 
 ### Recon ###
 
