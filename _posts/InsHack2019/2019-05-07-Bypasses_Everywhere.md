@@ -120,7 +120,7 @@ The leaked code is pretty trivial, what is needed to do to get the flag
 is:
  - Sending a `POST` request to `/article` with a specific `secret` and 
 the `url` where we will receive the `flag`
- - The requeste must be sent by the `admin` as his IP is `127.0.0.1`
+ - The request must be sent by the `admin` as his IP is `127.0.0.1`
  - If a referrer is set it must be `127.0.0.1[:port]`
  
 After some brainstorming we realized that the solution was as easy as 
