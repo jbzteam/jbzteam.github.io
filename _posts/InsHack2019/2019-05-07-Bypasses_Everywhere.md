@@ -45,7 +45,7 @@ default-src 'none'; style-src 'unsafe-inline'
 
 By sending a simple HTTP link to the admin you're able to notice that 
 his browser is `HeadlessChrome/73`, meaning we have to deal no only with 
-the `CSP`, but only with the `XSS-Auditor`.
+the `CSP`, but also with the `XSS-Auditor`.
 
 ```
 User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, 
@@ -63,7 +63,7 @@ pretty sure this page is safe :)
 So we thought we had a way to leak somehow the content of that page, 
 without breaking the `CSP` and triggering the `XSS-Auditor`.
 
-Finally we managed to do it by injection a new `<img>` tag with as 
+Finally we managed to do it by injecting a new `<img>` tag with as 
 source our domain, followed by the page's content.
 
 We basically sent as URL to the admin:
