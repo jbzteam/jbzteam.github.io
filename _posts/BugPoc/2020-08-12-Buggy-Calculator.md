@@ -242,7 +242,7 @@ Wrapping everything together we have our final exploit
 ![Final exploit]({{ site.url }}/assets/BugPoc/BugPoc-5.JPG)
 
 To see it in action on BugPoc.com:  
-- **URL:** https://bugpoc.com/poc#bp-jOA9FIM9  
-- **Password:** `enoUgHHOrse25`
+**URL:** [https://bugpoc.com/poc#bp-jOA9FIM9](https://bugpoc.com/poc#bp-jOA9FIM9)
+**Password:** `enoUgHHOrse25`
 
 👋🏾 by [smaury](https://twitter.com/smaury92)
