@@ -130,15 +130,15 @@ Given the aforementioned bypass, we can use our desired trick to host the follow
 </script>
 ```
 
-![PoC creation on BugPoc](https://github.com/jbzteam/CTF/raw/master/BugPoc/BugPoc-1.JPG)
+![PoC creation on BugPoc]({{ site.url }}/assets/BugPoc/BugPoc-1.JPG)
 
-![PoC execution on BugPoc](https://github.com/jbzteam/CTF/raw/master/BugPoc/BugPoc-2.JPG)
+![PoC execution on BugPoc]({{ site.url }}/assets/BugPoc/BugPoc-2.JPG)
 
 ### Challenge solved!!1! ###
 
 So now we have our working exploit to the HTML injection, we just need to send a simple `<img src=c onerror=alert(1)>` to exploit the XSS, right?
 
-![Content-Security-Policy blocking payload](https://github.com/jbzteam/CTF/raw/master/BugPoc/BugPoc-3.JPG)
+![Content-Security-Policy blocking payload]({{ site.url }}/assets/BugPoc/BugPoc-3.JPG)
 
 Not so fast, as can be seen the the `frame.html` `<head>` section a `<meta>` tag declaring a [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is present.
 
@@ -174,7 +174,7 @@ Yeah, that's the way! We can inject an `iframe` inside the `iframe` and set an a
 </script>
 ```
 
-![AngularJS injection](https://github.com/jbzteam/CTF/raw/master/BugPoc/BugPoc-4.JPG)
+![AngularJS injection]({{ site.url }}/assets/BugPoc/BugPoc-4.JPG)
 
 
 ### AngularJS sandbox escape and filter bypass ###
@@ -215,7 +215,7 @@ Wrapping everything together we have our final exploit
 </script>
 ```
 
-![Final exploit](https://github.com/jbzteam/CTF/raw/master/BugPoc/BugPoc-5.JPG)
+![Final exploit]({{ site.url }}/assets/BugPoc/BugPoc-5.JPG)
 
 To see it in action on BugPoc.com:
 **URL:** https://bugpoc.com/poc#bp-jOA9FIM9
