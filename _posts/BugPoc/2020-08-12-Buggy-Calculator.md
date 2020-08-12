@@ -245,4 +245,4 @@ To see it in action on BugPoc.com:
 **URL:** https://bugpoc.com/poc#bp-jOA9FIM9
 **Password:** `enoUgHHOrse25`
 
-👋🏾
+👋🏾 by [smaury](https://twitter.com/smaury92)
